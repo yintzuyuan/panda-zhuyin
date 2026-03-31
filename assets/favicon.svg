@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Ears -->
+  <ellipse cx="35" cy="26" rx="14" ry="13" fill="#161616"/>
+  <ellipse cx="93" cy="26" rx="14" ry="13" fill="#161616"/>
+  <!-- Face -->
+  <rect x="18" y="28" width="92" height="80" rx="18" ry="18" fill="#fafaf5" stroke="#e0dbd3" stroke-width="0.5"/>
+  <!-- Eye patches -->
+  <ellipse cx="48" cy="57" rx="13" ry="15" fill="#161616" transform="rotate(-10,48,57)"/>
+  <ellipse cx="80" cy="57" rx="13" ry="15" fill="#161616" transform="rotate(10,80,57)"/>
+  <!-- Eyes -->
+  <circle cx="50" cy="55" r="5" fill="#fafaf5"/>
+  <circle cx="51" cy="56" r="2.8" fill="#161616"/>
+  <circle cx="82" cy="55" r="5" fill="#fafaf5"/>
+  <circle cx="83" cy="56" r="2.8" fill="#161616"/>
+  <!-- Nose -->
+  <ellipse cx="64" cy="72" rx="6" ry="4" fill="#161616"/>
+  <!-- Blush -->
+  <ellipse cx="41" cy="72" rx="7" ry="4" fill="#d4918a" opacity="0.3"/>
+  <ellipse cx="87" cy="72" rx="7" ry="4" fill="#d4918a" opacity="0.3"/>
+</svg>

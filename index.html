@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>胖打注音 — Panda Zhuyin | 為粗手指設計的滑動注音鍵盤</title>
+  <meta name="description" content="胖打注音是一款 iOS 注音輸入法鍵盤，用少量大鍵取代密密麻麻的小鍵，透過點擊和四方向滑動操作。不連網、不收集任何資料。">
+  <meta name="author" content="TzuYuan Yin">
+  <meta name="keywords" content="注音, 注音輸入法, iOS鍵盤, 注音鍵盤, bopomofo, zhuyin, 滑動輸入, flick keyboard, 胖打注音, panda zhuyin">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="胖打注音 — Panda Zhuyin">
+  <meta property="og:description" content="為粗手指設計的滑動注音鍵盤。用少量大鍵，點擊 + 滑動操作。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="胖打注音 — Panda Zhuyin">
+  <meta name="twitter:description" content="為粗手指設計的滑動注音鍵盤">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- FOUC Prevention -->
+  <script>(function(){var t=localStorage.getItem('panda-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('js-loading')})()</script>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "胖打注音 — Panda Zhuyin",
+    "operatingSystem": "iOS 17+",
+    "applicationCategory": "UtilitiesApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
+    "author": { "@type": "Person", "name": "TzuYuan Yin", "url": "https://erikyin.net" },
+    "description": "為粗手指設計的滑動注音鍵盤。用少量大鍵取代密密麻麻的小鍵，透過點擊和四方向滑動操作。"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="../app-icon/icon-light.png" alt="胖打注音" width="28" height="28">
+        胖打注音
+      </a>
+      <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
+        <i class="ph ph-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text fade-in">
+        <h1>胖打注音</h1>
+        <div class="hero-subtitle">Panda Zhuyin</div>
+        <div class="hero-tagline">為粗手指設計的滑動注音鍵盤</div>
+        <div class="hero-accent"></div>
+        <p class="hero-description">
+          手機上打注音，鍵太小、太擠、一直按錯隔壁。胖打依照注音符號表本身的分組，把符號收進少量大鍵。點擊選中央、滑動選同組的。不用瞇眼，不用猜。
+        </p>
+        <a href="#download" class="btn-primary">
+          加入 TestFlight 測試 <i class="ph ph-arrow-right"></i>
+        </a>
+      </div>
+      <div class="hero-visual fade-in">
+        <img src="../app-icon/icon-light.png" alt="" class="hero-icon hero-icon-light" width="280" height="280">
+        <img src="../app-icon/icon-dark.png" alt="" class="hero-icon hero-icon-dark" width="280" height="280">
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- How It Works -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label fade-in">How It Works</div>
+      <div class="card-grid">
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-grid-four"></i></div>
+          <h3>鍵少、鍵大</h3>
+          <p>注音、聲調、標點，用少量大鍵搞定。每個鍵都大到不會按錯隔壁。</p>
+        </div>
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-hand-tap"></i></div>
+          <h3>點擊 + 滑動</h3>
+          <p>靈感來自日文的 flick 鍵盤——點一下是中央的符號，往不同方向滑就是同組的其他注音。每個手勢都有確定的結果，不用等、不用猜。</p>
+        </div>
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-columns"></i></div>
+          <h3>三區分明</h3>
+          <p>聲母在左、介音在中、韻母在右。位置符合直覺，不需要重新學。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- Why It Works -->
+  <section class="section design-philosophy">
+    <div class="container">
+      <div class="section-label fade-in">Design</div>
+      <div class="card-grid">
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-table"></i></div>
+          <h3>注音表，就是設計文件</h3>
+          <p>ㄅㄆㄇ 的排列不是隨意的——語音學早就分好組了。胖打沿用這個分組，每一組放進一個鍵。國語實際用到的音節只有 412 個，不存在的組合直接排除。</p>
+        </div>
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-hand-swipe-right"></i></div>
+          <h3>組合韻母，一次完成</h3>
+          <p>傳統鍵盤打「ㄧㄠ」要先按 ㄧ 再按 ㄠ，兩次操作。胖打的介音可以直接拖動到韻母滑動條上，一個動作就輸入整組韻母。搭配灰化，滑動條上只有合法的韻母是亮的——不用記規則，鍵盤幫你篩好了。</p>
+        </div>
+        <div class="card fade-in">
+          <div class="card-icon"><i class="ph ph-map-trifold"></i></div>
+          <h3>你的輸入導航</h3>
+          <p>打了聲母之後，不可能接的組合會變灰——就像導航軟體把封閉的路標灰色，但你還是看得到整張地圖。位置不變，只是不需要的路暫時淡出。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label fade-in">Features</div>
+      <div class="features-grid">
+        <div class="feature-item fade-in">
+          <div class="feature-icon"><i class="ph ph-wifi-slash"></i></div>
+          <div class="feature-text">
+            <h3>不連網、不收集資料</h3>
+            <p>完全離線。不存取網路、不收集打字內容、不傳任何東西出去。</p>
+          </div>
+        </div>
+        <div class="feature-item fade-in">
+          <div class="feature-icon"><i class="ph ph-push-pin"></i></div>
+          <div class="feature-text">
+            <h3>按鍵位置固定不跳動</h3>
+            <p>符號永遠在同一個位置。打久了手指自己會記住，不用看鍵盤。</p>
+          </div>
+        </div>
+        <div class="feature-item fade-in">
+          <div class="feature-icon"><i class="ph ph-eye"></i></div>
+          <div class="feature-text">
+            <h3>智慧灰化導航</h3>
+            <p>輸入過程中，不可能的下一步自動變灰。縮小範圍，少走彎路。</p>
+          </div>
+        </div>
+        <div class="feature-item fade-in">
+          <div class="feature-icon"><i class="ph ph-graduation-cap"></i></div>
+          <div class="feature-text">
+            <h3>漸進式學習</h3>
+            <p>一開始看標籤找符號，用久了自然靠位置記憶。不用特別學，用著用著就會了。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- Download CTA -->
+  <section class="section cta-section" id="download">
+    <div class="container">
+      <h2 class="fade-in">試試看</h2>
+      <p class="fade-in">目前在 TestFlight 公開測試中，歡迎試用回饋。</p>
+      <a href="#" class="btn-primary fade-in">
+        加入 TestFlight 測試 <i class="ph ph-arrow-right"></i>
+      </a>
+      <div class="cta-note fade-in">需要 iOS 17 以上</div>
+      <div class="cta-credit fade-in">
+        Made by <a href="https://erikyin.net" target="_blank" rel="noopener">殷慈遠</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-copyright">&copy; 2026 殷慈遠 (Erik Yin)</span>
+      <div class="footer-links">
+        <a href="privacy.html">隱私權政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
