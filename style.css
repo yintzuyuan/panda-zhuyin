@@ -370,6 +370,8 @@ body {
   margin-top: var(--space-sm);
   letter-spacing: 0.03em;
 }
+.cta-note a { color: var(--text-secondary); text-decoration: underline; }
+.cta-note a:hover { color: var(--text); }
 .cta-credit {
   margin-top: var(--space-lg);
   font-family: var(--font-mono);
