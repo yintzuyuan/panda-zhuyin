@@ -15,9 +15,10 @@
 
 👉 [加入 TestFlight 測試](https://testflight.apple.com/join/TEgPJxqV)
 
-## 回報問題
+## 回饋
 
-歡迎透過 [Issues](https://github.com/yintzuyuan/panda-zhuyin/issues) 回報 bug 或提出建議。
+- 📋 [填寫使用回饋問卷](https://forms.gle/ZvrZobBTjSf5fCr36)
+- 🐛 [回報 bug 或建議](https://github.com/yintzuyuan/panda-zhuyin/issues)
 
 ## 連結
 
