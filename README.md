@@ -4,6 +4,11 @@
 
 將 37 個注音符號依照注音表的聲韻分類，分配到少數大按鍵上。點擊輸入中心符號，滑動輸入同組其他符號。
 
+<p align="center">
+  <img src="assets/screenshot-light.png" width="320" alt="淺色模式">
+  <img src="assets/screenshot-dark.png" width="320" alt="深色模式">
+</p>
+
 ## 試用
 
 目前在 TestFlight 公開測試中（iOS 17 以上）：
