@@ -232,6 +232,13 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+.hero-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
@@ -372,6 +379,36 @@ body {
 }
 .cta-note a { color: var(--text-secondary); text-decoration: underline; }
 .cta-note a:hover { color: var(--text); }
+.social-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: var(--space-lg);
+}
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.social-pill .ph { font-size: 1.05em; }
+.social-pill:hover {
+  color: var(--accent-pink);
+  border-color: var(--accent-pink);
+  background: color-mix(in srgb, var(--accent-pink) 6%, transparent);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent-pink) 15%, transparent);
+  transform: translateY(-1px);
+}
+
 .cta-credit {
   margin-top: var(--space-lg);
   font-family: var(--font-mono);
