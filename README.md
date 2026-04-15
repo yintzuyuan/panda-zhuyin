@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/platform-iOS_17%2B-000?logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
   <a href="https://apps.apple.com/tw/app/%E8%83%96%E6%89%93%E6%B3%A8%E9%9F%B3/id6761426494"><img src="https://img.shields.io/badge/App_Store-已上架-0D96F6?logo=appstore&logoColor=white" alt="App Store"></a>
-  <img src="https://img.shields.io/badge/v0.5.0-build_5-d4918a" alt="Version">
+  <img src="https://img.shields.io/badge/v1.1.0-build_9-d4918a" alt="Version">
 </p>
 
 <p align="center">為粗手指設計的滑動注音鍵盤</p>
