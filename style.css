@@ -232,6 +232,27 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* App Store badge — 沿用 hero-icon 的淺/深色切換模式 */
+.app-store-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  text-decoration: none;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.app-store-badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+.app-store-badge img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+.app-store-badge .badge-dark { display: none; }
+[data-theme="dark"] .app-store-badge .badge-light { display: none; }
+[data-theme="dark"] .app-store-badge .badge-dark { display: block; }
+
 .hero-social {
   display: flex;
   flex-wrap: wrap;

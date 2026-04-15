@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/platform-iOS_17%2B-000?logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
-  <img src="https://img.shields.io/badge/TestFlight-公測中-34C759?logo=testflight&logoColor=white" alt="TestFlight">
+  <a href="https://apps.apple.com/tw/app/%E8%83%96%E6%89%93%E6%B3%A8%E9%9F%B3/id6761426494"><img src="https://img.shields.io/badge/App_Store-已上架-0D96F6?logo=appstore&logoColor=white" alt="App Store"></a>
   <img src="https://img.shields.io/badge/v0.5.0-build_5-d4918a" alt="Version">
 </p>
 
@@ -31,11 +31,16 @@
 - **智慧灰化導航** — 輸入過程中，不可能的下一步自動變灰，縮小範圍，少走彎路
 - **不連網、不收集資料** — 完全離線運作，不存取網路、不收集打字內容
 
-## 試用
+## 下載
 
-目前在 TestFlight 公開測試中（iOS 17 以上）：
+現已於 App Store 上架，免費下載（iOS 17 以上）：
 
-👉 [加入 TestFlight 測試](https://testflight.apple.com/join/TEgPJxqV)
+<a href="https://apps.apple.com/tw/app/%E8%83%96%E6%89%93%E6%B3%A8%E9%9F%B3/id6761426494">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/app-store-badge/badge-white.svg">
+    <img src="assets/app-store-badge/badge-black.svg" alt="Download on the App Store" width="200">
+  </picture>
+</a>
 
 ## 回饋
 
