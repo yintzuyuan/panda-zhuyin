@@ -133,6 +133,7 @@ body {
   gap: var(--space-xl);
   align-items: center;
 }
+.hero-text { text-align: center; }
 .hero-text h1 {
   font-family: var(--font-serif);
   font-size: 3.2rem;
@@ -156,7 +157,7 @@ body {
 .hero-accent {
   height: 3px;
   width: 6rem;
-  margin-bottom: var(--space-md);
+  margin: 0 auto var(--space-md);
   border-radius: 2px;
   background: linear-gradient(90deg, var(--gradient-panda));
 }
@@ -165,7 +166,7 @@ body {
   color: var(--text-secondary);
   line-height: 1.8;
   max-width: 28rem;
-  margin-bottom: var(--space-lg);
+  margin: 0 auto var(--space-lg);
 }
 .hero-visual {
   display: flex;
@@ -539,8 +540,6 @@ body {
   .hero-visual { order: -1; }
   .hero-icon { width: 180px; height: 180px; border-radius: 36px; }
   .hero-text h1 { font-size: 2.4rem; }
-  .hero-accent { margin-left: auto; margin-right: auto; }
-  .hero-description { margin-left: auto; margin-right: auto; }
   .card-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
