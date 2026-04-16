@@ -236,7 +236,7 @@ body {
 .app-store-badge {
   display: inline-flex;
   align-items: center;
-  height: 40px;
+  height: 60px;
   text-decoration: none;
   transition: transform 0.2s, opacity 0.2s;
 }
@@ -245,7 +245,7 @@ body {
   opacity: 0.85;
 }
 .app-store-badge img {
-  height: 40px;
+  height: 60px;
   width: auto;
   display: block;
 }
@@ -255,6 +255,7 @@ body {
 
 .hero-social {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.75rem;
