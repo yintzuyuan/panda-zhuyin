@@ -106,6 +106,9 @@ body {
   letter-spacing: 0.08em;
 }
 .site-logo img { width: 28px; height: 28px; border-radius: 6px; }
+.site-logo-icon-dark { display: none; }
+[data-theme="dark"] .site-logo-icon-light { display: none; }
+[data-theme="dark"] .site-logo-icon-dark { display: block; }
 .header-btn {
   background: none;
   border: 1px solid var(--border);
