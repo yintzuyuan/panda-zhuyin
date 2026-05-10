@@ -29,7 +29,7 @@
 - **三區分明** — 聲母在左、介音在中、韻母在右，位置符合直覺
 - **組合韻母，一次完成** — 介音可以直接拖動到韻母滑動條上，一個動作輸入整組韻母
 - **智慧灰化導航** — 輸入過程中，不可能的下一步自動變灰，縮小範圍，少走彎路
-- **不連網、不收集資料** — 完全離線運作，不存取網路、不收集打字內容
+- **不存取網路、不收集打字內容** — 兩條核心事實獨立成立。Full Access 僅為震動回饋（Apple 鍵盤 extension 平台限制），開啟與否都不影響上面兩條事實
 
 ## 下載
 
@@ -42,10 +42,19 @@
   </picture>
 </a>
 
+## 支持開發
+
+胖打核心永遠免費。如果用得開心，可以選一個方便的方式打賞支持持續開發：
+
+- 🇹🇼 [綠界 ECPay](https://erikyin.net/panda-zhuyin/#support)
+- ☕ [Buy Me a Coffee](https://erikyin.net/panda-zhuyin/#support)
+- 💰 [PayPal](https://erikyin.net/panda-zhuyin/#support)
+
+所有支持都是真的「打賞」— 沒有解鎖任何功能、沒有訂閱、沒有後續扣款。
+
 ## 回饋
 
 - 📋 [填寫使用回饋問卷](https://forms.gle/ZvrZobBTjSf5fCr36)
-- 🐛 [回報 bug 或建議](https://github.com/yintzuyuan/panda-zhuyin/issues)
 
 ## 連結
 

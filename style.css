@@ -637,6 +637,298 @@ body {
 .cta-secondary:hover { color: var(--text); border-bottom-color: var(--accent); }
 .cta-secondary .ph { font-size: 1.1em; }
 
+/* ===== Hero L2 — sub-persona 認領 pills（fold 線下方） ===== */
+.hero-personas {
+  max-width: var(--max-width);
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-lg) var(--space-md) 0;
+  text-align: center;
+  border-top: 1px solid var(--border-light);
+}
+.hero-personas-lead {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-md);
+}
+.persona-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+}
+.persona-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 0.9em;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.persona-pill:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.persona-pill-icon {
+  font-size: 1.15em;
+  color: var(--accent);
+  line-height: 1;
+}
+.persona-pill:hover .persona-pill-icon { color: var(--accent-pink); }
+.hero-personas-link {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.hero-personas-link:hover { text-decoration: underline; }
+
+/* ===== Persona Grid (§4 為誰做的) ===== */
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-md);
+}
+.persona-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: var(--space-lg);
+  text-align: center;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.persona-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.persona-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto var(--space-md);
+  background: var(--bg-alt);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 2.2rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.persona-card:hover .persona-card-icon {
+  background: var(--bg);
+  color: var(--accent-pink);
+}
+.persona-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+.persona-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ===== Advanced Grid (§6 進階體驗) ===== */
+.advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+.advanced-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+.advanced-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  margin-bottom: var(--space-md);
+  background: var(--bg-alt);
+  border-radius: 10px;
+  color: var(--accent);
+  font-size: 1.85rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.advanced-card:hover .advanced-card-icon {
+  background: var(--bg);
+  color: var(--accent-pink);
+}
+.advanced-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+.advanced-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: var(--space-md);
+  flex: 1;
+}
+.advanced-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: var(--space-lg);
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  min-height: 6rem;
+}
+.advanced-placeholder .ph { font-size: 1.6rem; opacity: 0.5; }
+
+/* ===== Privacy Section (§7) ===== */
+.privacy-section { text-align: center; }
+.privacy-section .section-label { justify-content: center; }
+.privacy-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-bottom: var(--space-lg);
+}
+.privacy-fact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  min-width: 14rem;
+}
+.privacy-fact .ph { font-size: 1.8rem; color: var(--accent); }
+.privacy-fact h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.privacy-note {
+  max-width: 36rem;
+  margin: 0 auto var(--space-md);
+  text-align: left;
+  padding: var(--space-md);
+  background: var(--bg-alt);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+}
+.privacy-note h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.4em;
+  color: var(--text);
+}
+.privacy-note p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ===== Full Features (§8 核心 / 附加二分) ===== */
+.features-block {
+  max-width: 44rem;
+  margin: 0 auto var(--space-xl);
+}
+.features-block-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.features-block-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+  opacity: 0.35;
+}
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.feature-row {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: 1rem;
+  padding: 0.7rem 0.6rem;
+  align-items: start;
+  border-radius: 8px;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.feature-row:hover {
+  background: var(--bg-alt);
+  transform: translateX(2px);
+}
+.feature-row-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  background: var(--bg-alt);
+  border-radius: 8px;
+  color: var(--accent);
+  font-size: 1.15rem;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.feature-row:hover .feature-row-icon {
+  background: var(--bg-card);
+  color: var(--accent-pink);
+}
+.feature-row-content h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.2em;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.feature-row-content p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+.features-disclaimer {
+  max-width: 44rem;
+  margin: var(--space-md) auto 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.7;
+}
+
 /* ===== 14. CJK Lang Tweak ===== */
 html[data-lang="zh"] body { line-height: 1.85; }
 html[data-lang="en"] body { line-height: 1.7; }
@@ -655,10 +947,20 @@ html[data-lang="en"] body { line-height: 1.7; }
   .features-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
   .cta-actions { flex-direction: column; }
+  .advanced-grid { grid-template-columns: 1fr; }
+  .privacy-facts { flex-direction: column; align-items: stretch; }
+  .privacy-fact { min-width: 0; }
+  .hero-personas { padding-left: var(--space-sm); padding-right: var(--space-sm); }
 }
 
 @media (max-width: 480px) {
   .support-grid { grid-template-columns: 1fr; max-width: 20rem; }
   .header-controls { gap: 0.4rem; }
   .lang-switcher { font-size: 0.75rem; }
+  .feature-row {
+    grid-template-columns: 2rem 1fr;
+    gap: 0.7rem;
+    padding: 0.6rem 0.4rem;
+  }
+  .feature-row-icon { width: 2rem; height: 2rem; font-size: 1rem; }
 }

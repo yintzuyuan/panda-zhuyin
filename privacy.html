@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>隱私權政策 — 胖打注音 Panda Zhuyin</title>
-  <meta name="description" content="胖打注音隱私權政策。完整取用權限僅為震動回饋，完全離線、不收集任何資料。">
+  <meta name="description" content="胖打注音隱私權政策。不存取網路、不收集打字內容；Full Access 僅為震動回饋。">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -17,8 +17,22 @@
   <!-- Icons -->
   <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 
-  <!-- FOUC Prevention -->
-  <script>(function(){var t=localStorage.getItem('panda-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('js-loading')})()</script>
+  <!-- FOUC Prevention：theme + lang 預判 -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('panda-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        else if (matchMedia('(prefers-color-scheme:dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+
+        var l = localStorage.getItem('panda-lang') ||
+          ((navigator.language || 'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        document.documentElement.dataset.lang = l;
+        document.documentElement.lang = l === 'zh' ? 'zh-TW' : 'en';
+      } catch (e) {}
+      document.documentElement.classList.add('js-loading');
+    })();
+  </script>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -29,72 +43,82 @@
     <div class="header-inner">
       <a href="index.html" class="site-logo">
         <img src="assets/app-icon/icon-light.png" alt="胖打注音" width="28" height="28">
-        胖打注音
+        <span data-en="Panda Zhuyin">胖打注音</span>
       </a>
-      <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
-        <i class="ph ph-moon"></i>
-      </button>
+      <div class="header-controls">
+        <div class="lang-switcher" role="group" aria-label="Language switcher">
+          <button data-lang-set="zh" aria-label="切換至繁體中文">中</button>
+          <span class="divider" aria-hidden="true">|</span>
+          <button data-lang-set="en" aria-label="Switch to English">EN</button>
+        </div>
+        <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
+          <i class="ph ph-moon"></i>
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Page Header -->
   <div class="container">
     <div class="page-header">
-      <h1>隱私權政策</h1>
-      <p class="page-header-desc">胖打注音（Panda Zhuyin）的隱私權政策</p>
+      <h1 data-en="Privacy Policy">隱私權政策</h1>
+      <p class="page-header-desc" data-en="Privacy policy for Panda Zhuyin (胖打注音)">胖打注音（Panda Zhuyin）的隱私權政策</p>
     </div>
   </div>
 
   <!-- Content -->
   <div class="page-content">
 
-    <h2>概述</h2>
-    <p>胖打注音是一款注重隱私的 iOS 注音輸入法鍵盤。我們的核心原則是：<strong>你的打字內容只屬於你自己。</strong></p>
+    <h2 data-en="Overview">概述</h2>
+    <p data-en="Panda Zhuyin is a privacy-focused iOS bopomofo keyboard. Our core principle: your typing belongs to you alone.">胖打注音是一款注重隱私的 iOS 注音輸入法鍵盤。我們的核心原則是：<strong data-en="your typing belongs to you alone.">你的打字內容只屬於你自己。</strong></p>
 
-    <h2>我們不收集任何資料</h2>
-    <p>胖打注音：</p>
+    <h2 data-en="Two core facts">兩條核心事實</h2>
+    <p data-en="Panda Zhuyin operates under two facts that hold independently:">胖打注音的運作建立於兩條獨立成立的事實：</p>
     <ul>
-      <li><strong>不收集</strong>你輸入的任何文字內容</li>
-      <li><strong>不儲存</strong>任何使用者資料</li>
-      <li><strong>不傳輸</strong>任何資訊到外部伺服器</li>
-      <li><strong>不包含</strong>任何分析工具、追蹤器或第三方 SDK</li>
+      <li><strong data-en="No network access">不存取網路</strong><span data-en=" — the keyboard code contains no network requests."> — 鍵盤程式碼中沒有任何網路請求。</span></li>
+      <li><strong data-en="No typing collected">不收集打字內容</strong><span data-en=" — your input never leaves your device."> — 你的輸入內容不會離開你的裝置。</span></li>
     </ul>
+    <p data-en="No analytics, no trackers, no third-party SDKs.">不包含任何分析工具、追蹤器或第三方 SDK。</p>
 
-    <h2>關於「完整取用」權限</h2>
-    <p>胖打注音需要「允許完整取用」權限，<strong>唯一的原因是按鍵震動回饋</strong>。這是 Apple 對鍵盤延伸模組的限制——即使 App 完全不需要網路，只要使用震動功能就必須開啟完整取用。</p>
-    <p>開啟完整取用後，胖打注音仍然：</p>
+    <h2 data-en="Full Access transparency note">Full Access 透明註解</h2>
+    <p data-en="Panda Zhuyin requires you to enable Allow Full Access — the only reason is haptic feedback. iOS keyboard extensions must enable Full Access to call the haptic API; this is an Apple platform constraint, not a data privacy concern.">胖打注音需要「允許完整取用」權限，<strong data-en="the only reason is haptic feedback.">唯一的原因是按鍵震動回饋</strong>。iOS 鍵盤 extension 必須開啟 Full Access 才能呼叫震動 API — 這是 Apple 平台限制，與資料隱私無關。</p>
+    <p data-en="With Full Access on, Panda Zhuyin still:">開啟完整取用後，胖打注音仍然：</p>
     <ul>
-      <li><strong>不存取網路</strong>——鍵盤程式碼中沒有任何網路請求</li>
-      <li><strong>不傳送任何資料</strong>——你的輸入內容不會離開你的裝置</li>
+      <li><strong data-en="Does not access the network">不存取網路</strong><span data-en=" — there are no network requests in the keyboard code."> — 鍵盤程式碼中沒有任何網路請求。</span></li>
+      <li><strong data-en="Sends no data out">不傳送任何資料</strong><span data-en=" — your input does not leave your device."> — 你的輸入內容不會離開你的裝置。</span></li>
     </ul>
+    <p data-en="The two facts above hold independently of the Full Access toggle.">上面兩條事實獨立於 Full Access 開關成立。</p>
 
-    <h2>完全離線運作</h2>
-    <p>所有功能——包括注音輸入、選字、音韻判斷——全部在你的裝置上本地運行。無論你是否連接 Wi-Fi 或行動數據，都不影響使用。</p>
+    <h2 data-en="Learning data stays on your device">學習資料留在裝置本機</h2>
+    <p data-en="Auto-learned words and phrases stay on your device. If you enable iCloud Sync, they sync to your own private iCloud space — never through any panda-zhuyin server. Use the &quot;Forget&quot; feature to clear individually or reset everything.">自動學習的字／詞只留在你裝置（如開啟 iCloud Sync 則同步至你自己的 iCloud 私人空間，不經 panda-zhuyin server）；可用「忘記」功能個別清除或一鍵重置。</p>
 
-    <h2>Host App</h2>
-    <p>胖打注音的主程式（Host App）僅包含操作教學和鍵盤啟用引導，不收集任何使用者資料。</p>
+    <h2 data-en="Fully offline">完全離線運作</h2>
+    <p data-en="All features — bopomofo input, candidate selection, phonetic judgment — run locally on your device. Wi-Fi or cellular status does not affect usage.">所有功能——包括注音輸入、選字、音韻判斷——全部在你的裝置上本地運行。無論你是否連接 Wi-Fi 或行動數據，都不影響使用。</p>
 
-    <h2>兒童隱私</h2>
-    <p>胖打注音不收集任何使用者的個人資訊，包括兒童在內。</p>
+    <h2 data-en="Host App">Host App</h2>
+    <p data-en="The Panda Zhuyin host app contains only setup tutorials and keyboard activation guidance. It collects no user data.">胖打注音的主程式（Host App）僅包含操作教學和鍵盤啟用引導，不收集任何使用者資料。</p>
 
-    <h2>政策變更</h2>
-    <p>如果隱私權政策有所變更，我們會在此頁面更新。</p>
+    <h2 data-en="Children's privacy">兒童隱私</h2>
+    <p data-en="Panda Zhuyin collects no personal information from any user, including children.">胖打注音不收集任何使用者的個人資訊，包括兒童在內。</p>
 
-    <h2>聯絡方式</h2>
-    <p>如果你對隱私權政策有任何疑問，請透過以下方式聯絡：</p>
+    <h2 data-en="Policy changes">政策變更</h2>
+    <p data-en="If this privacy policy changes, we will update this page.">如果隱私權政策有所變更，我們會在此頁面更新。</p>
+
+    <h2 data-en="Contact">聯絡方式</h2>
+    <p data-en="For privacy policy questions, please contact:">如果你對隱私權政策有任何疑問，請透過以下方式聯絡：</p>
     <ul>
       <li>Email：<a href="mailto:yintzuyuan@erikyin.net">yintzuyuan@erikyin.net</a></li>
     </ul>
 
-    <div class="last-updated">最後更新：2026 年 3 月 30 日</div>
+    <div class="last-updated" data-en="Last updated: 2026-05-10">最後更新：2026 年 5 月 10 日</div>
   </div>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <span class="footer-copyright">&copy; 2026 殷慈遠 (Erik Yin)</span>
+      <span class="footer-copyright" data-en="© 2026 TzuYuan Yin (Erik Yin)">&copy; 2026 殷慈遠 (Erik Yin)</span>
       <div class="footer-links">
-        <a href="index.html">返回首頁</a>
+        <a href="index.html" data-en="← Back to home">返回首頁</a>
       </div>
     </div>
   </footer>
