@@ -1,5 +1,3 @@
-> ⚠️ **此 repo 為部署鏡像 / Deployment mirror.** 請勿直接編輯。Source of truth: [`yintzuyuan/bopomofo-keyboard/docs/website/`](https://github.com/yintzuyuan/bopomofo-keyboard)（private）。變動透過該 repo 的 `Scripts/sync-website-to-public.sh` 同步。
-
 <p align="center">
   <img src="assets/app-icon/icon-light.png" width="128" alt="胖打注音 App Icon">
 </p>
