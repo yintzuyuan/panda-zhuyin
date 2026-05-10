@@ -530,7 +530,118 @@ body {
   border-top: 1px solid var(--border-light);
 }
 
-/* ===== 11. Responsive ===== */
+/* ===== 11. Header Controls + Lang Switcher ===== */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.lang-switcher button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25em 0.4em;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+}
+.lang-switcher button.active { opacity: 1; color: var(--text); }
+.lang-switcher button:hover { opacity: 1; }
+.lang-switcher .divider { color: var(--text-secondary); opacity: 0.4; }
+
+/* ===== 12. Tip Jar ===== */
+.tipjar-section { text-align: center; }
+.tipjar-section .section-label { justify-content: center; }
+.tipjar-section h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: var(--space-md);
+  letter-spacing: 0.02em;
+}
+.tipjar-lead {
+  color: var(--text-secondary);
+  max-width: 36rem;
+  margin: 0 auto var(--space-lg);
+  line-height: 1.8;
+}
+.tipjar-disclaimer {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: var(--space-md);
+  font-style: italic;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  max-width: 36rem;
+  margin: 0 auto;
+}
+.support-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.support-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.support-card .ph { font-size: 1.2em; }
+.support-card-ecpay:hover { border-color: color-mix(in srgb, #00AF54 60%, var(--text-secondary)); }
+.support-card-bmc:hover   { border-color: color-mix(in srgb, #D4A017 60%, var(--text-secondary)); }
+.support-card-paypal:hover{ border-color: color-mix(in srgb, #0070BA 60%, var(--text-secondary)); }
+
+/* ===== 13. Download CTA Actions（雙按鈕容器 + secondary） ===== */
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.6em 1em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.cta-secondary:hover { color: var(--text); border-bottom-color: var(--accent); }
+.cta-secondary .ph { font-size: 1.1em; }
+
+/* ===== 14. CJK Lang Tweak ===== */
+html[data-lang="zh"] body { line-height: 1.85; }
+html[data-lang="en"] body { line-height: 1.7; }
+
+/* ===== 15. Responsive ===== */
 @media (max-width: 768px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -543,4 +654,11 @@ body {
   .card-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
+  .cta-actions { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .support-grid { grid-template-columns: 1fr; max-width: 20rem; }
+  .header-controls { gap: 0.4rem; }
+  .lang-switcher { font-size: 0.75rem; }
 }
