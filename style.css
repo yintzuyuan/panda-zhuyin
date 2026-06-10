@@ -456,18 +456,26 @@ body {
   font-size: 0.7rem;
   color: var(--text-secondary);
 }
-.footer-links {
+.footer-links,
+.footer-social {
   display: flex;
   gap: var(--space-md);
 }
-.footer-links a {
+.footer-links a,
+.footer-social a {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s;
 }
-.footer-links a:hover { color: var(--text); }
+/* 社群連結為 icon-only，圖示比文字連結稍大（約 18px）較清楚 */
+.footer-social a {
+  display: inline-flex;
+  font-size: 1.1rem;
+}
+.footer-links a:hover,
+.footer-social a:hover { color: var(--text); }
 
 /* ===== 10. Privacy Page ===== */
 .page-header {
