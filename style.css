@@ -566,6 +566,12 @@ body {
   font-weight: 500;
   margin: var(--space-lg) 0 var(--space-sm);
 }
+.page-content h3 {
+  margin: var(--space-md) 0 var(--space-xs);
+  font-size: 1.05rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
 .page-content p {
   margin-bottom: var(--space-sm);
   line-height: 1.8;

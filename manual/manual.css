@@ -79,6 +79,20 @@
 .zm-write { display: flex; align-items: center; justify-content: center; gap: 0.6rem; font-size: 1.6rem; font-weight: 700; }
 .zm-arrow { color: var(--text-secondary); font-size: 1rem; font-weight: 400; }
 
+.sup-compare { width: 100%; max-width: 380px; display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.sup-col {
+  border: 1px solid var(--border); border-radius: 16px; background: var(--bg-card);
+  padding: 1rem 1rem 1.1rem; box-shadow: var(--shadow-md);
+}
+.sup-col-plum { border-color: color-mix(in srgb, var(--plum) 35%, var(--border)); }
+.sup-col-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 0.6rem; color: var(--text-secondary);
+}
+.sup-col-title.c-plum { color: var(--plum); }
+.sup-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.86rem; color: var(--text-secondary); }
+
 .man-end { border-top: 1px solid var(--border-light); padding: var(--space-xl) 0; text-align: center; }
 .man-end h2 { font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: var(--space-xs); }
 .man-end p { color: var(--text-secondary); margin-bottom: var(--space-md); }

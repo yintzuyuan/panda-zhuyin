@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服務條款 — 胖打注音 Panda Zhuyin</title>
+  <meta name="description" content="胖打注音服務條款。胖打 Supporter 訂閱方案、自動續訂、退款與標準授權條款說明。">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/app-icon/icon-light.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk" crossorigin="anonymous"></script>
+
+  <!-- FOUC Prevention：theme + lang 預判 -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('panda-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        else if (matchMedia('(prefers-color-scheme:dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+
+        var l = localStorage.getItem('panda-lang') ||
+          ((navigator.language || 'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        document.documentElement.dataset.lang = l;
+        document.documentElement.lang = l === 'zh' ? 'zh-TW' : 'en';
+      } catch (e) {}
+      document.documentElement.classList.add('js-loading');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="shared/spectrum.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="assets/app-icon/icon-light.png" alt="胖打注音" class="site-logo-icon site-logo-icon-light" width="28" height="28">
+        <img src="assets/app-icon/icon-dark.png" alt="" class="site-logo-icon site-logo-icon-dark" width="28" height="28">
+        <span data-en="Panda Zhuyin">胖打注音</span>
+      </a>
+      <div class="header-controls">
+        <div class="lang-switcher" role="group" aria-label="語言切換" data-aria-en="Language switcher">
+          <button data-lang-set="zh" aria-label="切換至繁體中文">中</button>
+          <span class="divider" aria-hidden="true">|</span>
+          <button data-lang-set="en" aria-label="Switch to English">EN</button>
+        </div>
+        <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
+          <i class="ph ph-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div class="container">
+    <div class="page-header">
+      <h1 data-en="Terms of Use">服務條款</h1>
+      <p class="page-header-desc" data-en="Terms of use for Panda Zhuyin (胖打注音), including the Panda Supporter subscription.">胖打注音（Panda Zhuyin）的服務條款，包含胖打 Supporter 訂閱方案說明。</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="page-content">
+
+    <h2 data-en="Subscription: Panda Supporter">訂閱服務：胖打 Supporter</h2>
+    <p data-en="Panda Zhuyin offers an optional auto-renewing subscription, Panda Supporter, in two plans:">胖打注音提供一項選用的自動續訂訂閱方案「胖打 Supporter」，分為兩種方案：</p>
+    <ul>
+      <li><strong data-en="Monthly plan">月方案</strong><span data-en=" — NT$30 / month."> — NT$30／月。</span></li>
+      <li><strong data-en="Yearly plan">年方案</strong><span data-en=" — NT$300 / year."> — NT$300／年。</span></li>
+    </ul>
+    <p data-en="Actual prices are shown on the App Store product page and may vary by region or currency; the App Store price at the time of purchase always governs.">實際價格以 App Store 商品頁面顯示為準，可能因地區或幣別而有所不同；購買當下的 App Store 顯示價格為最終依據。</p>
+    <p data-en="Panda Supporter unlocks advanced appearance features: curated theme packs, font switching, the liquid-glass effect, and background gradients.">胖打 Supporter 解鎖進階外觀功能：精選主題包、字型切換、液態玻璃效果、背景漸層等。</p>
+
+    <h3 data-en="Auto-renewal">自動續訂</h3>
+    <p data-en="Subscriptions renew automatically and payment is charged to your Apple ID 24 hours before the end of the current period, unless auto-renewal is turned off at least 24 hours before the period ends. You can manage or cancel your subscription anytime in iOS Settings → [your name] → Subscriptions.">訂閱會自動續期，除非在當期結束前至少 24 小時關閉自動續訂，否則將於當期結束前 24 小時透過你的 Apple 帳號自動扣款續期。你可以隨時在 iOS「設定 → Apple 帳號 → 訂閱項目」管理或取消訂閱。</p>
+
+    <h3 data-en="After cancellation">取消後</h3>
+    <p data-en="If you cancel, Supporter features remain active for the rest of the period you already paid for. After that period ends, advanced appearance features are disabled — the keyboard's core functionality, and your own data (learned words, custom themes, settings), are never affected and remain free forever.">取消訂閱後，已付費的當期內 Supporter 功能仍維持有效。當期結束後，進階外觀功能會停用；但鍵盤的核心功能，以及你自己的資料（自動學習的詞庫、自製主題、個人設定），完全不受影響，永久免費使用。</p>
+
+    <h2 data-en="Purchases & refunds">購買與退款</h2>
+    <p data-en="All purchases, billing, and refunds are handled entirely by the Apple App Store — Panda Zhuyin does not process payments or hold your payment information. To request a refund, submit your request to Apple at reportaproblem.apple.com.">所有購買、帳務與退款皆完全由 Apple App Store 處理，胖打注音不經手也不保存你的付款資訊。若需要退款，請透過 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 向 Apple 提出申請。</p>
+
+    <h2 data-en="Standard license agreement">標準授權合約</h2>
+    <p data-en="Use of this app is licensed under Apple's Standard End User License Agreement (EULA):">本 App 依 Apple 標準使用者授權合約（Standard EULA）授權使用：</p>
+    <ul>
+      <li><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">https://www.apple.com/legal/internet-services/itunes/dev/stdeula/</a></li>
+    </ul>
+
+    <h2 data-en="Contact">聯絡方式</h2>
+    <p data-en="For questions about these terms, please contact:">如果你對本服務條款有任何疑問，請透過以下方式聯絡：</p>
+    <ul>
+      <li>Email：<a href="mailto:yintzuyuan@erikyin.net">yintzuyuan@erikyin.net</a></li>
+    </ul>
+
+    <div class="last-updated" data-en="Last updated: 2026-07-06">最後更新：2026 年 7 月 6 日</div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-copyright" data-en="© 2026 TzuYuan Yin (Erik Yin)">&copy; 2026 殷慈遠 (Erik Yin)</span>
+      <div class="footer-links">
+        <a href="index.html" data-en="← Back to home">返回首頁</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
