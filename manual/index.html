@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>說明書 — 胖打注音 | 五分鐘學會滑出注音</title>
+  <meta name="description" content="胖打注音操作說明書：點一下選中央、滑一下選同組。五段圖解動畫講完核心手勢。">
+  <link rel="canonical" href="https://erikyin.net/panda-zhuyin/manual/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://erikyin.net/panda-zhuyin/manual/">
+  <link rel="alternate" hreflang="en" href="https://erikyin.net/panda-zhuyin/manual/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="胖打注音說明書 — 五分鐘學會滑出注音">
+  <meta property="og:description" content="點一下選中央、滑一下選同組。五段圖解動畫講完胖打注音的核心手勢。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
+  <meta property="og:url" content="https://erikyin.net/panda-zhuyin/manual/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="胖打注音說明書 — 五分鐘學會滑出注音">
+  <meta name="twitter:description" content="點一下選中央、滑一下選同組。五段圖解動畫講完核心手勢。">
+  <meta name="twitter:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
+
+  <!-- Smart App Banner (iOS Safari) -->
+  <meta name="apple-itunes-app" content="app-id=6761426494">
+
+  <link rel="icon" type="image/png" href="../assets/app-icon/icon-light.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- integrity hash 與 index.html 相同（Task 3 Step 7 算出的值） -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk" crossorigin="anonymous"></script>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('panda-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        else if (matchMedia('(prefers-color-scheme:dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+        var l = localStorage.getItem('panda-lang') ||
+          ((navigator.language || 'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        document.documentElement.dataset.lang = l;
+        document.documentElement.lang = l === 'zh' ? 'zh-TW' : 'en';
+      } catch (e) {}
+      document.documentElement.classList.add('js-loading');
+    })();
+  </script>
+  <link rel="stylesheet" href="../shared/spectrum.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="manual.css">
+  <script defer src="https://analytics.erikyin.net/script.js" data-website-id="ccc8f182-3fc3-488a-8eec-446d1af94c64"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="site-logo">
+        <img src="../assets/app-icon/icon-light.png" alt="胖打注音" class="site-logo-icon site-logo-icon-light" width="28" height="28">
+        <img src="../assets/app-icon/icon-dark.png" alt="" class="site-logo-icon site-logo-icon-dark" width="28" height="28">
+        <span data-en="Panda Zhuyin">胖打注音</span>
+      </a>
+      <nav class="site-nav" aria-label="主要導覽" data-aria-en="Main navigation">
+        <a href="./" aria-current="page" data-en="Manual">說明書</a>
+      </nav>
+      <div class="header-controls">
+        <div class="lang-switcher" role="group" aria-label="語言切換" data-aria-en="Language switcher">
+          <button data-lang-set="zh" aria-label="切換至繁體中文">中</button>
+          <span class="divider" aria-hidden="true">|</span>
+          <button data-lang-set="en" aria-label="Switch to English">EN</button>
+        </div>
+        <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
+          <i class="ph ph-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="man-hero">
+    <div class="container">
+      <div class="man-crumb c-teal" data-en="Manual · 說明書">Manual · 說明書</div>
+      <h1 data-en="Five minutes to flick bopomofo.">五分鐘，學會滑出注音。</h1>
+      <p data-en="Panda's input logic is one sentence: tap for the center, flick for the group. The first five chapters cover the core; two electives cover symbols and Taigi.">胖打的輸入邏輯只有一句話：點一下選中央，滑一下選同組。前五章講完核心，後兩章是進階選修：符號手勢與台語模式。</p>
+      <nav class="man-toc" aria-label="章節目錄" data-aria-en="Chapter navigation">
+        <a href="#c0"><span class="pill-dot" style="background:var(--teal)"></span><span data-en="The keyboard map">鍵盤的地圖</span></a>
+        <a href="#c1"><span class="pill-dot" style="background:var(--jade)"></span><span data-en="One key">一顆鍵怎麼打</span></a>
+        <a href="#c2"><span class="pill-dot" style="background:var(--amber)"></span><span data-en="Initials">聲母滑動</span></a>
+        <a href="#c3"><span class="pill-dot" style="background:var(--plum)"></span><span data-en="Medials">介音組合</span></a>
+        <a href="#c4"><span class="pill-dot" style="background:var(--indigo)"></span><span data-en="Number flick">數字下滑</span></a>
+        <a href="#c5"><span class="pill-dot" style="background:var(--rose)"></span><span data-en="Symbols">符號手勢</span></a>
+        <a href="#c6"><span class="pill-dot" style="background:var(--teal)"></span><span data-en="Taigi">台語模式</span></a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="chap" id="c0">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-teal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="00 · The keyboard map">00 · 鍵盤的地圖</span></div>
+        <h2 data-en="The direction you type is the direction you write">打字的方向，就是寫注音的方向</h2>
+        <p><strong class="c-jade" data-en="Initials on the left">聲母在左</strong><span data-en=", ">、</span><strong class="c-amber" data-en="medials in the middle">介音在中</strong><span data-en=", ">、</span><strong class="c-rose" data-en="finals on the right">韻母在右</strong><span data-en=" — exactly the order bopomofo is written horizontally.">——這不是隨便排的，它就是注音橫式書寫的順序。</span></p>
+        <p data-en="Typing ㄓㄨㄤ, your finger moves left, middle, right — the same as writing it. Keys follow the bopomofo table order: top to bottom, left to right.">打「ㄓㄨㄤ」，手指從左、到中、到右，和寫注音一模一樣。排列由上到下、由左到右，跟著注音表的教學順序走。</p>
+        <div class="chap-tip c-teal"><span data-en="Tip: used Dayi-style 26-key bopomofo? The initials-left / finals-right spatial habit carries over directly.">小提示：用過大千式？聲母左、韻母右的空間慣性完全相同，肌肉記憶直接搬過來。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="zonemap">
+          <!-- grid 依 KeyboardKit/Sources/KeyboardKit/Models/BopomofoKeyboardLayout.swift 實際 3 列 × 5 欄排列：
+               第 1 列 K1 K2 M1 F1 KT／第 2 列 K3 K4 M2 F2 KP／第 3 列 K5 K6 M3 F3 F3e
+               （K1-K6 聲母、M1-M3 介音、F1-F3+F3e 韻母、KT/KP 聲調・標點，聲調標點不染色） -->
+          <div class="zm-board" aria-label="鍵盤三區示意" data-aria-en="Keyboard three-zone diagram">
+            <span class="zm-key z-i"></span><span class="zm-key z-i"></span><span class="zm-key z-m"></span><span class="zm-key z-f"></span><span class="zm-key z-t"></span>
+            <span class="zm-key z-i"></span><span class="zm-key z-i"></span><span class="zm-key z-m"></span><span class="zm-key z-f"></span><span class="zm-key z-t"></span>
+            <span class="zm-key z-i"></span><span class="zm-key z-i"></span><span class="zm-key z-m"></span><span class="zm-key z-f"></span><span class="zm-key z-f"></span>
+          </div>
+          <div class="zm-legend">
+            <span><span class="pill-dot" style="background:var(--jade)"></span><span data-en="Initials">聲母</span></span>
+            <span><span class="pill-dot" style="background:var(--amber)"></span><span data-en="Medials">介音</span></span>
+            <span><span class="pill-dot" style="background:var(--rose)"></span><span data-en="Finals">韻母</span></span>
+          </div>
+          <div class="zm-write" aria-label="書寫順序對照" data-aria-en="Writing order comparison">
+            <span class="c-jade">ㄓ</span><span class="zm-arrow">→</span>
+            <span class="c-amber">ㄨ</span><span class="zm-arrow">→</span>
+            <span class="c-rose">ㄤ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap chap-alt" id="c1">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-jade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="01 · One key">01 · 一顆鍵怎麼打</span></div>
+        <h2 data-en="Tap the center, flick four ways">點中央，滑四方</h2>
+        <p data-en="Every key is a center plus four directions. Tap to type the center; flick any direction to type that side. The small hints on the keycap show the four assignments.">每顆鍵是「中央＋四個方向」。點一下，輸入中央的音；往任一方向滑，輸入該方向的音。鍵面上的小字提示就是四個方向的分配。</p>
+        <p data-en="This ㄉ key: tap = ㄉ, up = ㄊ, left/right = ㄋ, down = ㄌ.">右邊這顆 ㄉ 鍵：點＝ㄉ，上滑＝ㄊ，左右滑＝ㄋ，下滑＝ㄌ。</p>
+        <div class="chap-tip c-jade"><span data-en="Tip: flicked the wrong way? Keep your finger down and slide back to the center to cancel.">小提示：滑錯方向？手指不放開，移回中央就取消。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="flick-demo" aria-label="ㄉ 鍵四方向滑動演示" data-aria-en="ㄉ key four-direction flick demo">
+          <div class="fd-pad">
+            <div class="fd-petal up">ㄊ</div>
+            <div class="fd-petal left">ㄋ</div>
+            <div class="fd-petal right">ㄋ</div>
+            <div class="fd-petal down">ㄌ</div>
+            <div class="fd-center">ㄉ
+              <div class="fd-hints"><span class="c-amber">ㄊ</span><span class="c-jade">ㄋ</span><span class="c-indigo">ㄌ</span></div>
+            </div>
+            <div class="fd-finger"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap" id="c2">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-amber" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="02 · Initials">02 · 聲母滑動</span></div>
+        <h2 data-en="Sounds that live together, stay together">發音相近，位置就相近</h2>
+        <p data-en="Initials from the same place of articulation share one key: ㄉㄊㄋㄌ together, ㄗㄘㄙ together. You find sounds by mouth intuition, not by memorizing a layout.">同一發音部位的聲母收在同一顆鍵：ㄉㄊㄋㄌ 一家、ㄗㄘㄙ 一家。找音靠的是嘴巴的直覺，不是背鍵盤。</p>
+        <div class="chap-tip c-amber"><span data-en="Tip: hint colors on the keycap match the petal colors — glance before you flick.">小提示：鍵面小字的顏色跟花瓣顏色一致，滑之前先瞄一眼就好。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="anim-frame">
+          <iframe data-anim src="animations/initial.html" title="聲母滑動動畫" loading="lazy" width="540" height="540"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap chap-alt" id="c3">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-plum" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="03 · Medials">03 · 介音組合</span></div>
+        <h2 data-en="Medial and final in one motion">介音＋韻母，一個動作</h2>
+        <p data-en="After ㄧㄨㄩ there is often a final. Long-press a medial key to open the selector, keep your finger down and slide one more cell — medial and final complete in a single motion. ㄨㄤ is one gesture, not two taps.">ㄧㄨㄩ 之後常常還有韻母。長按介音鍵展開選盤，手指不放開、順勢再滑一格，介音＋韻母一次完成——「ㄨㄤ」是一個動作，不是兩次點擊。</p>
+        <div class="chap-tip c-plum"><span data-en="Tip: impossible combinations gray out automatically on the selector.">小提示：不確定選哪格時，選盤上不可能的組合會自動變灰。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="anim-frame">
+          <iframe data-anim src="animations/medial-u.html" title="介音組合動畫" loading="lazy" width="640" height="420"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap" id="c4">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-indigo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="04 · Number flick">04 · 數字下滑</span></div>
+        <h2 data-en="Flick down for Chinese numerals">下滑直出漢字數字</h2>
+        <p data-en="Flick down on a number key to type Chinese numerals directly: 1 down = 一, 2 down = 二 — no typing Arabic numerals first and hunting candidates.">數字鍵往下滑，直接輸入漢字數字：1 下滑＝一、2 下滑＝二。不用先打阿拉伯數字再翻候選。</p>
+        <p><strong data-en="This gesture works on the bopomofo, Latin, and symbol keyboards alike.">這個手勢在注音、拉丁、符號鍵盤都通用</strong><span data-en=" — one muscle memory, three keyboards.">——同一個肌肉記憶，三個鍵盤都認得。</span></p>
+        <div class="chap-tip c-indigo"><span data-en="Tip: need formal numerals 壹貳參? Type the number and check the candidate row.">小提示：要大寫「壹貳參」？打完數字看候選列，就在那裡。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="anim-frame">
+          <iframe data-anim src="animations/number-down.html" title="數字下滑動畫" loading="lazy" width="640" height="300"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap chap-alt" id="c5">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-rose" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="05 · Symbols">05 · 符號手勢</span></div>
+        <h2 data-en="One key, both sides of the pair">一顆鍵，開闔一對括號</h2>
+        <p data-en="On the symbol keyboard, every bracket key leads with its opening side: tap for 「, then press and flick down for the matching 」. Quotes, parentheses, title marks — one logic for all.">符號鍵盤的括號都以開邊當主鍵：點一下輸出開邊「，再按住往下滑就換成對應的閉邊」。引號、夾注號、書名號，全是同一套邏輯。</p>
+        <p data-en="Common punctuation (，。？！) commits instantly on tap and jumps you straight back to bopomofo — drop in a mark and keep typing.">高頻句讀（，。？！）點一下直接上屏、自動跳回注音鍵盤——補個標點，不用手動切回來。</p>
+        <div class="chap-tip c-rose"><span data-en="Tip: flick down on a symbol key for its variant (，→ half-width , … → ……); more family members appear in the candidate row.">小提示：符號鍵往下滑是它的變體（，→半形 ,、…→……）；更多家族成員會同時出現在候選列。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="anim-frame">
+          <iframe data-anim src="animations/bracket-pair.html" title="括號鍵開閉邊動畫" loading="lazy" width="640" height="300"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chap" id="c6">
+    <div class="container chap-inner">
+      <div class="chap-text">
+        <div class="chap-marker"><span class="fcross c-teal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="chap-label" data-en="06 · Taigi mode">06 · 台語模式</span></div>
+        <h2 data-en="Same gestures, now in Taigi">同一套手勢，改說台語</h2>
+        <p data-en="Turn on the Taigi keyboard in the app's settings, then flick right on the bottom-left language key to hop between Mandarin and Taigi — all 7 tones, entering tones, and nasal finals included.">在 App 設定開啟「台語方音鍵盤」，左下角語系切換鍵右滑，就能在國語與台語之間來回——完整 7 聲調、入聲與鼻化韻都在。</p>
+        <p data-en="Pull down on a vowel cell for its nasalized variant (ㄚ→ㆩ); on ㄚ and ㆦ, pull up for the -m endings (ㆰ/ㆱ). The tiny dots on a cell's edge are the hint: a dot means that direction has a variant.">韻母格往下拉是鼻化變體（ㄚ→ㆩ）；ㄚ、ㆦ 再往上拉是 -m 韻尾（ㆰ／ㆱ）。格子邊緣的小圓點就是提示：有點的方向，才有變體。</p>
+        <p data-en="The 變 key cycles voiced and nasal variants (ㄅ→ㆠ, ㄧ→ㆪ); tap the tone key for an entering-tone coda, tap again to cycle its position, flick left for the neutral tone.">「變」鍵循環濁音與鼻化介音（ㄅ→ㆠ、ㄧ→ㆪ）；聲調鍵點一下是入聲小字、連點依部位循環、往左滑是輕聲。</p>
+        <div class="chap-tip c-teal"><span data-en="Tip: Taigi uses the same gray-out navigation as Mandarin — impossible combinations dim automatically.">小提示：台語模式的灰化導航跟國語同一套——接不下去的組合會自動變灰。</span></div>
+      </div>
+      <div class="chap-vis">
+        <div class="anim-frame">
+          <iframe data-anim src="animations/vowel-variant.html" title="台語韻母上下拉變體動畫" loading="lazy" width="640" height="360"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="man-end">
+    <div class="container">
+      <h2 data-en="Know the first five, and you can type.">會前五招，就會打了。</h2>
+      <p data-en="Symbols and Taigi are electives — come back when you need them. Tones, punctuation, and candidate-row details are always in the app's Help tab.">符號和台語是進階選修，需要時再回來翻。聲調、標點、候選列的細節，App 內「說明」分頁隨時查得到。</p>
+      <div class="cta-actions">
+        <a href="https://apps.apple.com/tw/app/%E8%83%96%E6%89%93%E6%B3%A8%E9%9F%B3/id6761426494"
+           class="app-store-badge" target="_blank" rel="noopener" aria-label="從 App Store 下載胖打注音" data-aria-en="Download Panda Zhuyin on the App Store">
+          <img src="../assets/app-store-badge/badge-black.svg" alt="Download on the App Store" class="badge-light" width="203" height="60">
+          <img src="../assets/app-store-badge/badge-white.svg" alt="Download on the App Store" class="badge-dark" width="203" height="60">
+        </a>
+        <a href="../index.html" class="cta-secondary"><span data-en="Back to home">回官網首頁</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-copyright" data-en="© 2026 TzuYuan Yin (Erik Yin)">&copy; 2026 殷慈遠 (Erik Yin)</span>
+      <div class="footer-links">
+        <a href="../privacy.html" data-en="Privacy">隱私權政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../main.js"></script>
+  <script>
+    // 動畫 iframe 深淺色跟隨站點 data-theme（切換時重設 src 的 ?theme=）
+    (function () {
+      var root = document.documentElement;
+      function syncFrames() {
+        var dark = root.getAttribute('data-theme') === 'dark';
+        document.querySelectorAll('iframe[data-anim]').forEach(function (f) {
+          var base = f.getAttribute('src').split('?')[0];
+          var next = base + (dark ? '?theme=dark' : '');
+          if (f.getAttribute('src') !== next) f.setAttribute('src', next);
+        });
+      }
+      new MutationObserver(syncFrames).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      syncFrames();
+      // 動畫舞台原尺寸（540×540／640×420／640×300）大於欄寬 → 依 wrapper 寬度等比縮放
+      function fitFrames() {
+        document.querySelectorAll('.anim-frame').forEach(function (wrap) {
+          var f = wrap.querySelector('iframe[data-anim]');
+          if (!f) return;
+          var w = parseInt(f.getAttribute('width'), 10);
+          var h = parseInt(f.getAttribute('height'), 10);
+          var s = wrap.clientWidth / w;
+          f.style.transform = 'scale(' + s + ')';
+          wrap.style.height = (h * s) + 'px';
+        });
+      }
+      window.addEventListener('resize', fitFrames);
+      fitFrames();
+    })();
+  </script>
+</body>
+</html>

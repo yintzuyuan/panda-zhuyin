@@ -1,0 +1,65 @@
+/* 注音光譜 palette — 等彩度、共暖底的色相環取樣（清晰多彩・區隔優先）。
+   介面色沿用官網 style.css；spectrum 為說明書動畫新增的字母專屬色，淺/深各一套。
+   主題切換：body 加上 .dark（或 ?theme=dark，見 anim-engine.js）。 */
+
+:root {
+  /* —— 介面（淺色，貼合官網預設）—— */
+  --bg: #fafaf5;
+  --bg-soft: #f2f0eb;
+  --key: #ffffff;
+  --key-edge: #e4ded4;
+  --key-pressed: #efeae1;
+  --text: #161616;
+  --text-soft: #6b6b6b;
+  --shadow: rgba(22, 22, 22, 0.10);
+  --shadow-strong: rgba(22, 22, 22, 0.16);
+  --finger: rgba(40, 36, 33, 0.22);
+  --finger-edge: rgba(40, 36, 33, 0.30);
+  --finger-ring: rgba(40, 36, 33, 0.42);
+  --finger-ring-held: rgba(40, 36, 33, 0.62);
+
+  /* —— 注音光譜（淺色：中彩度，壓在白鍵上仍清楚）—— */
+  --rose:   #d6748a;
+  --amber:  #dd8a2c;
+  --jade:   #2f9e78;
+  --teal:   #2592ae;
+  --indigo: #5468cc;
+  --plum:   #9a55c0;
+
+  /* 花瓣/高亮填色上的字色（淺色用白字）。 */
+  --on-color: #ffffff;
+  --halo-opacity: 0.55;
+}
+
+body.dark {
+  /* —— 介面（深色）—— */
+  --bg: #151515;
+  --bg-soft: #1c1c1c;
+  --key: #262626;
+  --key-edge: #3a3a3a;
+  --key-pressed: #313131;
+  --text: #e8e8e2;
+  --text-soft: #8f8f8f;
+  --shadow: rgba(0, 0, 0, 0.45);
+  --shadow-strong: rgba(0, 0, 0, 0.6);
+  --finger: rgba(255, 255, 255, 0.20);
+  --finger-edge: rgba(255, 255, 255, 0.34);
+  --finger-ring: rgba(255, 255, 255, 0.55);
+  --finger-ring-held: rgba(255, 255, 255, 0.8);
+
+  /* —— 注音光譜（深色：提亮、略降彩度，黑底上仍清楚）—— */
+  --rose:   #e993a4;
+  --amber:  #ecb45c;
+  --jade:   #5fc6a0;
+  --teal:   #54b9d6;
+  --indigo: #8492e0;
+  --plum:   #bc86da;
+
+  /* 深色花瓣較亮 → 深字較清楚。 */
+  --on-color: #1b1b1b;
+  --halo-opacity: 0.62;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 匯出 poster / 尊重系統設定：靜止在第一幀（由 anim-engine 處理 seek(0)）。 */
+}

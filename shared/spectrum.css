@@ -1,0 +1,55 @@
+/* ===== 注音光譜 design tokens（#838）=====
+   v2 品牌色 SoT。色值鏡像（修改時同步，checklist 見 docs/design/v2-visual-guide.md）：
+   - docs/website/manual/animations/shared/palette.css（動畫域，body.dark 機制，不引用本檔）
+   - Modules/SpectrumKit/Sources/SpectrumKit/SpectrumColor.swift（App）
+   深淺色機制：:root 淺色預設，[data-theme="dark"] 覆蓋（FOUC script 已處理系統偏好）。 */
+
+:root {
+  /* —— 介面基色（自 style.css 搬入）—— */
+  --bg: #fafaf5;
+  --bg-alt: #f2f0eb;
+  --bg-card: #ffffff;
+  --text: #161616;
+  --text-secondary: #6b6b6b;
+  --border: #e0dbd3;
+  --border-light: #eae6df;
+
+  /* —— 注音光譜（淺色：中彩度）—— */
+  --rose:   #d6748a;
+  --amber:  #dd8a2c;
+  --jade:   #2f9e78;
+  --teal:   #2592ae;
+  --indigo: #5468cc;
+  --plum:   #9a55c0;
+
+  /* 光譜色作底時的字色（淺色用白字；amber 底禁排文字，僅限 icon） */
+  --on-color: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg: #151515;
+  --bg-alt: #1c1c1c;
+  --bg-card: #242424;
+  --text: #e5e5e0;
+  --text-secondary: #8a8a8a;
+  --border: #3a3a3a;
+  --border-light: #2e2e2e;
+
+  /* —— 注音光譜（深色：提亮）—— */
+  --rose:   #e993a4;
+  --amber:  #ecb45c;
+  --jade:   #5fc6a0;
+  --teal:   #54b9d6;
+  --indigo: #8492e0;
+  --plum:   #bc86da;
+
+  --on-color: #1b1b1b;
+}
+
+/* 字色 utility（與動畫域 keyboard.css 的 .c-* 同名同義） */
+.c-rose   { color: var(--rose); }
+.c-amber  { color: var(--amber); }
+.c-jade   { color: var(--jade); }
+.c-teal   { color: var(--teal); }
+.c-indigo { color: var(--indigo); }
+.c-plum   { color: var(--plum); }

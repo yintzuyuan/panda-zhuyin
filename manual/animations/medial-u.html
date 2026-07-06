@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>介音 ㄨ 組合韻母 — 胖打注音說明書動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/palette.css">
+<link rel="stylesheet" href="shared/keyboard.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .stage { width: 640px; height: 420px; --c-ctr: var(--rose); }
+  .key { width: 72px; height: 72px; }
+  .kc { font-size: 36px; }
+  .cell { width: 50px; height: 50px; font-size: 27px; }
+  /* 組成音節提示丸 */
+  .syllable {
+    position: absolute; left: 50%; top: 100px; translate: -50% 0;   /* ㄨ 上方無韻母、空間留給預覽 */
+    padding: 8px 18px; border-radius: 14px;                          /* 圓角矩形（同其他動畫的鍵/格），無尖角 */
+    background: var(--bg-soft); border: 1px solid var(--key-edge);
+    color: var(--text); font-size: 28px; font-weight: 700; letter-spacing: 3px;
+    box-shadow: 0 4px 16px var(--shadow); opacity: 0; z-index: 9;
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="syllable" id="syllable"></div>
+  <div class="key"><span class="kc">ㄨ</span></div>
+  <div class="ripple" id="ripple"></div>
+  <div class="finger" id="finger"></div>
+</div>
+
+<script src="shared/anim-engine.js"></script>
+<script>
+const stage = document.getElementById("stage");
+const finger = document.getElementById("finger");
+const ripple = document.getElementById("ripple");
+const syllable = document.getElementById("syllable");
+const keyEl = document.querySelector(".key");
+
+// 以「實際按鍵中心」為錨點，確保各方向格子與介音鍵嚴格對齊。
+function keyCenter() {
+  const sr = stage.getBoundingClientRect(), kr = keyEl.getBoundingClientRect();
+  return { x: kr.left - sr.left + kr.width / 2, y: kr.top - sr.top + kr.height / 2 };
+}
+let CENTER = keyCenter();
+
+const DIST = [66, 120, 174, 228];           // 自介音中心的主軸距離；首格緊鄰（但不疊）較小的 ㄨ 鍵
+const AXIS = { right: [1, 0], left: [-1, 0], down: [0, 1], up: [0, -1] };
+
+// ㄨ 的四向 buckets（依 MedialFlickDirectionTable.buckets("ㄨ")）。
+// 每方向用「單一組色」（避免顏色混雜）；停留的組合韻母與經過高亮皆用該組色。
+const GROUP = { right: "indigo", down: "teal", left: "amber" };
+const BUCKETS = {
+  right: ["ㄢ", "ㄣ", "ㄤ", "ㄥ"],
+  down:  ["ㄞ", "ㄟ"],
+  left:  ["ㄛ", "ㄚ"],
+};
+
+// 建格子（每方向一組）。
+const cellsByDir = { right: [], down: [], left: [] };
+const allCells = [];
+for (const dir of ["right", "down", "left"]) {
+  BUCKETS[dir].forEach((ch, idx) => {
+    const el = document.createElement("div");
+    el.className = "cell";
+    el.textContent = ch;
+    stage.appendChild(el);
+    const rec = { el, idx, color: GROUP[dir] };
+    cellsByDir[dir].push(rec);
+    allCells.push(rec);
+  });
+}
+function placeCells() {
+  CENTER = keyCenter();
+  for (const dir of ["right", "down", "left"]) {
+    const [ux, uy] = AXIS[dir];
+    cellsByDir[dir].forEach((c) => {
+      c.el.style.left = CENTER.x + ux * DIST[c.idx] + "px";
+      c.el.style.top = CENTER.y + uy * DIST[c.idx] + "px";
+    });
+  }
+}
+placeCells();
+window.addEventListener("resize", placeCells);
+
+// 三段 sweep，各自獨立「按壓→拖曳→放開」，且只展示當下滑動的那個方向（#731：APP 行為將跟進）。
+// 停點刻意不同深度：右停 ㄤ(idx2)、下停 ㄟ(idx1)、左停 ㄛ(idx0)。
+// 每段：落下(中央) → 滑出 → 停留 → 就地抬起（對齊圖一：在韻母格放開、不回中央；下一向再從中央落下）。
+const APPEAR = 0.18, OUT = 0.42, PAUSE = 0.5, RELEASE = 0.22;
+const SPAN = APPEAR + OUT + PAUSE + RELEASE;   // 1.32
+const LEAD = 0.5, GAP = 0.3, TAIL = 0.5;
+const sweeps = [
+  { dir: "right", tIdx: 2 },   // ㄨㄤ
+  { dir: "down",  tIdx: 1 },   // ㄨㄟ
+  { dir: "left",  tIdx: 0 },   // ㄨㄛ
+];
+sweeps.forEach((s, i) => { s.t0 = LEAD + i * (SPAN + GAP); });
+const DUR = LEAD + sweeps.length * SPAN + (sweeps.length - 1) * GAP + TAIL;
+
+function setCell(c, vis, active) {
+  c.el.style.opacity = vis;
+  if (active) {
+    c.el.style.background = "var(--" + c.color + ")";
+    c.el.classList.add("active");
+    c.el.style.scale = 1.08;
+    c.el.style.zIndex = 6;
+  } else {
+    c.el.style.background = "";
+    c.el.classList.remove("active");
+    c.el.style.scale = 1;
+    c.el.style.zIndex = 4;
+  }
+}
+
+function render(t) {
+  // —— reset ——
+  finger.style.opacity = 0;
+  finger.classList.remove("pressed"); finger.style.scale = 1;
+  ripple.style.opacity = 0;
+  syllable.style.opacity = 0;
+  allCells.forEach((c) => setCell(c, 0, false));
+
+  const s = sweeps.find((sw) => t >= sw.t0 && t < sw.t0 + SPAN);
+  if (!s) return;
+
+  const lt = t - s.t0, dir = s.dir, [ux, uy] = AXIS[dir], target = DIST[s.tIdx];
+  Anim.ripple(ripple, 0, 0, lt / 0.5);   // 按壓 ㄨ 時自中心放射漣漪
+  const p1 = APPEAR, p2 = p1 + OUT, p3 = p2 + PAUSE;   // 抬起 = p3..SPAN
+
+  // 該方向的可見度（淡入 → 保持 → 抬起時淡出）。
+  let vis = Anim.clamp01(lt / APPEAR);
+  if (lt > p3) vis *= 1 - Anim.clamp01((lt - p3) / RELEASE);
+
+  // 指尖主軸距離：滑到韻母格後就停在該處抬起（不回中央）。
+  let fd = 0, syl = "";
+  if (lt < p1) fd = 0;
+  else if (lt < p2) fd = Anim.easeInOut((lt - p1) / OUT) * target;
+  else fd = target;
+  if (lt >= p2) syl = "ㄨ" + BUCKETS[dir][s.tIdx];   // 停留＋抬起期間都顯示組合結果
+
+  finger.style.opacity = vis;
+  finger.style.left = CENTER.x + ux * fd + "px";
+  finger.style.top = CENTER.y + uy * fd + "px";
+  finger.classList.add("pressed"); finger.style.scale = 0.82;   // 介音為「按住拖曳」→ 全程押入態
+
+  // 經過高亮：已通過（dist<=fd+18）中最遠那格 active。
+  let activeIdx = -1;
+  if (fd > 40) BUCKETS[dir].forEach((_, i) => { if (DIST[i] <= fd + 18) activeIdx = i; });
+  cellsByDir[dir].forEach((c, i) => setCell(c, vis, i === activeIdx));
+
+  // 組合韻母提示丸：以該組顏色高亮。
+  if (syl) {
+    syllable.textContent = syl;
+    syllable.style.background = "var(--" + GROUP[dir] + ")";
+    syllable.style.color = "var(--on-color)";
+    syllable.style.borderColor = "transparent";
+  }
+  syllable.style.opacity = syl ? vis : 0;
+}
+
+Anim.run(render, DUR, "#stage");
+</script>
+</body>
+</html>

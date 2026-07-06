@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>括號鍵開閉邊 — 胖打注音說明書動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/palette.css">
+<link rel="stylesheet" href="shared/keyboard.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .stage { width: 640px; height: 300px; --c-ctr: var(--rose); }
+  .brkey {
+    position: absolute; width: 96px; height: 96px;
+    background: var(--key); border: 1px solid var(--key-edge); border-radius: 16px;
+    box-shadow: 0 1px 3px var(--shadow);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .brkey .t {
+    position: absolute; font-size: 40px; font-weight: 700; color: var(--text); line-height: 1;
+  }
+  .brkey .close { color: var(--rose); }
+  .bubble { font-size: 36px; }
+  .bubble .t { position: absolute; }
+  .bubble .close { color: var(--on-color); }
+  /* 已輸出文字列（模擬文字框）：括號逐字上屏。 */
+  .out {
+    position: absolute; left: 50%; top: 28px; translate: -50%;
+    display: flex; align-items: center; gap: 2px;
+    font-size: 34px; font-weight: 600; color: var(--text); line-height: 1;
+  }
+  .out .ch { opacity: 0; overflow: hidden; white-space: nowrap; }
+  .caret { width: 2.5px; height: 36px; background: var(--rose); border-radius: 2px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="out" aria-hidden="true">
+    <span class="ch" id="chOpen">「</span>
+    <span class="ch" id="chClose">」</span>
+    <span class="caret" id="caret"></span>
+  </div>
+  <div class="brkey" id="brkey">
+    <span class="t open" id="kOpen">「</span>
+    <span class="t close" id="kClose">」</span>
+  </div>
+  <div class="bubble" id="bubble">
+    <span class="t open" id="bOpen">「</span>
+    <span class="t close" id="bClose">」</span>
+  </div>
+  <div class="ripple" id="ripple"></div>
+  <div class="finger" id="finger"></div>
+</div>
+
+<script src="shared/anim-engine.js"></script>
+<script>
+const finger = document.getElementById("finger");
+const ripple = document.getElementById("ripple");
+const bubble = document.getElementById("bubble");
+const brkey = document.getElementById("brkey");
+const kOpen = document.getElementById("kOpen");
+const kClose = document.getElementById("kClose");
+const bOpen = document.getElementById("bOpen");
+const bClose = document.getElementById("bClose");
+const chOpen = document.getElementById("chOpen");
+const chClose = document.getElementById("chClose");
+const caret = document.getElementById("caret");
+
+const CX = 320, KEY_TOP = 158, KH = 96, keyCY = KEY_TOP + KH / 2;
+const SLIDE = 16;   // 對齊 FlickCommitKey（複用 NumberFlickLifecycle 的字面 morph 距離）
+
+brkey.style.left = CX - 48 + "px";
+brkey.style.top = KEY_TOP + "px";
+
+// 泡泡（五邊形花瓣、尖端朝下落在鍵上緣）。
+const BW = 64, BH = 64;
+bubble.style.width = BW + "px";
+bubble.style.height = BH + "px";
+bubble.style.left = CX - BW / 2 + "px";
+bubble.style.top = KEY_TOP - BH - 6 + "px";
+bubble.style.paddingBottom = "14px";
+Anim.applyPetalShape(bubble, "up", 7);
+
+ripple.style.left = CX + "px";
+ripple.style.top = keyCY + "px";
+
+// 時間軸（秒）：第一拍 tap＝開邊「上屏；第二拍按住下滑＝鍵面 morph 成閉邊」再上屏。
+const T = {
+  aIn: 0.45, aTap: 0.62, aOut: 1.05,          // 第一拍：點按
+  bIn: 1.75, bPress: 1.95,                    // 第二拍：按下
+  flickStart: 2.35, flickRamp: 2.55,          // 下滑 morph 0→1
+  release: 3.15, releaseEnd: 3.5,             // 放開：閉邊上屏
+};
+const DUR = 4.4;
+
+function applyMorph(openEl, closeEl, down) {
+  openEl.style.opacity = 1 - down;
+  openEl.style.transform = `translateY(${down * SLIDE}px)`;
+  closeEl.style.opacity = down;
+  closeEl.style.transform = `translateY(${(down - 1) * SLIDE}px)`;
+}
+
+function render(t) {
+  // 下滑進度：flick 後 0→1，release 後回 0（鍵面回開邊、預備 loop）。
+  let down = 0;
+  if (t >= T.flickStart) down = Anim.easeOut((t - T.flickStart) / (T.flickRamp - T.flickStart));
+  if (t >= T.release) down *= 1 - Anim.easeOut((t - T.release) / (T.releaseEnd - T.release));
+  down = Anim.clamp01(down);
+  applyMorph(kOpen, kClose, down);
+  applyMorph(bOpen, bClose, down);
+
+  // 泡泡：兩拍各自淡入淡出。
+  const bubA = Anim.bump(t, T.aIn, T.aOut - T.aIn + 0.25);
+  const bubB = Anim.clamp01((t - T.bPress) / 0.18) * (1 - Anim.clamp01((t - T.release) / (T.releaseEnd - T.release)));
+  bubble.style.opacity = Math.max(bubA, bubB);
+
+  // 已輸出文字：開邊在第一拍 release 上屏、閉邊在第二拍 release 上屏；loop 開頭清空。
+  // 未上屏的字寬度收合＝游標隨輸入前進（單邊模式游標在字後，非成對置中）。
+  const loopFade = t < DUR - 0.12 ? 1 : 1 - Anim.seg(t, DUR - 0.12, 0.12);
+  const openVis = Anim.clamp01((t - T.aOut) / 0.12);
+  const closeVis = Anim.clamp01((t - T.release - 0.1) / 0.15);
+  chOpen.style.opacity = openVis * loopFade;
+  chClose.style.opacity = closeVis * loopFade;
+  chOpen.style.width = openVis > 0 ? "" : "0px";
+  chClose.style.width = closeVis > 0 ? "" : "0px";
+  // 游標閃爍（0.5s 週期）。
+  caret.style.opacity = (t % 1.0) < 0.55 ? 0.9 : 0.15;
+
+  // 指尖：第一拍 點按；第二拍 按住下滑。
+  let fop = 0, fy = -56, held = false;
+  if (t < T.aIn) { const p = Anim.easeOut(t / T.aIn); fop = p; fy = Anim.lerp(-56, 0, p); }
+  else if (t < T.aOut) { fop = 1 - Anim.seg(t, T.aTap + 0.12, T.aOut - T.aTap - 0.12); fy = 0; }
+  else if (t < T.bIn) { fop = 0; fy = -56; }
+  else if (t < T.bPress) { const p = Anim.easeOut((t - T.bIn) / (T.bPress - T.bIn)); fop = p; fy = Anim.lerp(-56, 0, p); }
+  else if (t < T.release) { const p = Anim.easeOut((t - T.flickStart) / (T.release - T.flickStart)); fop = 1; fy = t < T.flickStart ? 0 : Anim.lerp(0, 42, p); held = true; }
+  else if (t < T.releaseEnd) { const p = Anim.easeOut((t - T.release) / (T.releaseEnd - T.release)); fop = 1 - p; fy = Anim.lerp(42, 22, p); }
+  finger.classList.toggle("pressed", held);
+  finger.style.opacity = fop;
+  finger.style.left = CX + "px";
+  finger.style.top = keyCY + fy + "px";
+  finger.style.scale = held ? 0.82 : 1;
+
+  Anim.ripple(ripple, 0, 0, (t - T.aIn) / 0.5);   // 第一拍點按漣漪
+}
+
+Anim.run(render, DUR, "#stage");
+</script>
+</body>
+</html>

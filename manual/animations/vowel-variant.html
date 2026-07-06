@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台語韻母上下拉變體 — 胖打注音說明書動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/palette.css">
+<link rel="stylesheet" href="shared/keyboard.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .stage { width: 640px; height: 360px; --c-ctr: var(--teal); }
+  /* 台語 F1 韻母條 [ㄚ ㆦ ㄜ ㆤ]：靜止單一長條、按下格單獨透出（對齊 VowelSliderView）。 */
+  .strip {
+    position: absolute;
+    background: var(--key); border: 1px solid var(--key-edge); border-radius: 16px;
+    box-shadow: 0 1px 3px var(--shadow);
+  }
+  .vcell {
+    position: absolute; display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .vcell.pressed { background: var(--key-pressed); }
+  .vcell .t {
+    position: absolute; font-size: 38px; font-weight: 700; color: var(--text); line-height: 1;
+  }
+  .vcell .variant { color: var(--teal); }
+  /* #848 手勢提示點：上緣＝有上拉變體、下緣＝有下拉變體。 */
+  .dot {
+    position: absolute; left: 50%; translate: -50%;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--text);
+    opacity: 0.5;
+  }
+  .dot.up { top: 5px; }
+  .dot.down { bottom: 5px; }
+  .bubble { font-size: 34px; }
+  .bubble .t { position: absolute; }
+  .bubble .variant { color: var(--on-color); }
+  .cap {
+    position: absolute; left: 50%; translate: -50%; top: 36px;
+    font-size: 15px; color: var(--text-soft); letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="cap" id="cap" aria-hidden="true">下拉＝鼻化 ㆩ　上拉＝-m 尾 ㆰ</div>
+  <div class="strip" id="strip"></div>
+  <div class="bubble" id="bubble">
+    <span class="t base" id="bBase">ㄚ</span>
+    <span class="t variant" id="bVar">ㆩ</span>
+  </div>
+  <div class="ripple" id="ripple"></div>
+  <div class="finger" id="finger"></div>
+</div>
+
+<script src="shared/anim-engine.js"></script>
+<script>
+const stage = document.getElementById("stage");
+const strip = document.getElementById("strip");
+const finger = document.getElementById("finger");
+const ripple = document.getElementById("ripple");
+const bubble = document.getElementById("bubble");
+const bBase = document.getElementById("bBase");
+const bVar = document.getElementById("bVar");
+
+// 台語 F1 直接鍵序（TaigiKeyboardLayout）；提示點依 TaigiVariantCycle 環：
+// ㄚ=[ㄚ,ㆩ,ㆰ] 上下皆有、ㆦ=[ㆦ,ㆧ,ㆱ] 上下皆有、ㄜ 無環、ㆤ=[ㆤ,ㆥ] 僅下拉。
+const CELLS = [
+  { base: "ㄚ", down: "ㆩ", up: "ㆰ" },
+  { base: "ㆦ", down: "ㆧ", up: "ㆱ" },
+  { base: "ㄜ", down: null, up: null },
+  { base: "ㆤ", down: "ㆥ", up: null },
+];
+const CW = 96, CH = 92, PAD = 5;
+const stripW = CELLS.length * CW + PAD * 2, stripH = CH + PAD * 2;
+const stripX = (640 - stripW) / 2, stripY = 168;
+strip.style.left = stripX + "px";
+strip.style.top = stripY + "px";
+strip.style.width = stripW + "px";
+strip.style.height = stripH + "px";
+
+const SLIDE = 16;   // 對齊 VowelSliderView.slideDistance
+const cells = [];
+CELLS.forEach((c, i) => {
+  const el = document.createElement("div");
+  el.className = "vcell";
+  el.style.left = stripX + PAD + i * CW + "px";
+  el.style.top = stripY + PAD + "px";
+  el.style.width = CW + "px";
+  el.style.height = CH + "px";
+  el.style.borderRadius = i === 0 ? "12px 0 0 12px" : i === CELLS.length - 1 ? "0 12px 12px 0" : "0";
+  const base = document.createElement("span");
+  base.className = "t base"; base.textContent = c.base;
+  el.appendChild(base);
+  let variant = null;
+  if (c.down || c.up) {
+    variant = document.createElement("span");
+    variant.className = "t variant";
+    el.appendChild(variant);
+  }
+  const dots = {};
+  if (c.up) { const d = document.createElement("span"); d.className = "dot up"; el.appendChild(d); dots.up = d; }
+  if (c.down) { const d = document.createElement("span"); d.className = "dot down"; el.appendChild(d); dots.down = d; }
+  stage.appendChild(el);
+  cells.push({ el, base, variant, dots, cx: stripX + PAD + i * CW + CW / 2 });
+});
+const target = cells[0];   // 演示格＝ㄚ
+const cellCY = stripY + PAD + CH / 2;
+
+// 泡泡（花瓣朝上、位於 ㄚ 格上方）。
+const BW = 62, BH = 62;
+bubble.style.width = BW + "px";
+bubble.style.height = BH + "px";
+bubble.style.left = target.cx - BW / 2 + "px";
+bubble.style.top = stripY - BH - 4 + "px";
+bubble.style.paddingBottom = "14px";
+Anim.applyPetalShape(bubble, "up", 7);
+
+ripple.style.left = target.cx + "px";
+ripple.style.top = cellCY + "px";
+
+// 時間軸（秒）：A 拍按住下拉 ㆩ、B 拍按住上拉 ㆰ。
+const A = { fin: 0.45, press: 0.6, pull: 1.0, ramp: 1.22, rel: 1.85, relEnd: 2.2 };
+const B = { fin: 2.75, press: 2.95, pull: 3.35, ramp: 3.57, rel: 4.2, relEnd: 4.55 };
+const DUR = 5.2;
+
+// 對齊 VowelSliderView.cellContent：下拉＝base 向下滑出、變體自上滑入；上拉鏡像。
+function applyMorph(baseEl, varEl, prog, dirUp) {
+  const slide = dirUp ? -SLIDE : SLIDE;
+  baseEl.style.opacity = 1 - prog;
+  baseEl.style.transform = `translateY(${prog * slide}px)`;
+  if (varEl) {
+    varEl.style.opacity = prog;
+    varEl.style.transform = `translateY(${(prog - 1) * slide}px)`;
+  }
+}
+
+function beatProgress(t, K) {
+  let p = 0;
+  if (t >= K.pull) p = Anim.easeOut((t - K.pull) / (K.ramp - K.pull));
+  if (t >= K.rel) p *= 1 - Anim.easeOut((t - K.rel) / (K.relEnd - K.rel));
+  return Anim.clamp01(p);
+}
+
+function render(t) {
+  const pDown = beatProgress(t, A);           // A 拍：下拉 ㆩ
+  const pUp = beatProgress(t, B);             // B 拍：上拉 ㆰ
+  const active = pDown > 0 ? "down" : pUp > 0 ? "up" : null;
+  const prog = active === "down" ? pDown : pUp;
+  const dirUp = active === "up";
+
+  // 演示格字面 morph（變體字換內容：ㆩ／ㆰ）。
+  if (target.variant) target.variant.textContent = dirUp ? "ㆰ" : "ㆩ";
+  applyMorph(target.base, target.variant, prog, dirUp);
+  bVar.textContent = dirUp ? "ㆰ" : "ㆩ";
+  applyMorph(bBase, bVar, prog, dirUp);
+
+  // 按下格透出（觸落即鎖格；水平移動不換格）。
+  const pressedA = t >= A.press && t < A.relEnd;
+  const pressedB = t >= B.press && t < B.relEnd;
+  target.el.classList.toggle("pressed", pressedA || pressedB);
+
+  // 提示點：該格顯示變體時淡出（與滑入動畫同步，對齊 #848）。
+  const dotFade = 1 - prog;
+  Object.values(target.dots).forEach((d) => { d.style.opacity = 0.5 * dotFade; });
+
+  // 泡泡：兩拍各自淡入淡出。
+  const bubA = Anim.clamp01((t - A.press) / 0.16) * (1 - Anim.clamp01((t - A.rel) / (A.relEnd - A.rel)));
+  const bubB = Anim.clamp01((t - B.press) / 0.16) * (1 - Anim.clamp01((t - B.rel) / (B.relEnd - B.rel)));
+  bubble.style.opacity = Math.max(bubA, bubB);
+
+  // 指尖：A 拍落下→按住→下拉→抬起；B 拍鏡像上拉。
+  let fop = 0, fy = -52, held = false;
+  function beatFinger(K, pullDist) {
+    if (t < K.fin) return;
+    if (t < K.press) { const p = Anim.easeOut((t - K.fin) / (K.press - K.fin)); fop = p; fy = Anim.lerp(-52, 0, p); }
+    else if (t < K.rel) { const p = Anim.easeOut((t - K.pull) / (K.rel - K.pull)); fop = 1; fy = t < K.pull ? 0 : Anim.lerp(0, pullDist, p); held = true; }
+    else if (t < K.relEnd) { const p = Anim.easeOut((t - K.rel) / (K.relEnd - K.rel)); fop = 1 - p; fy = Anim.lerp(pullDist, pullDist * 0.5, p); }
+  }
+  if (t < B.fin) beatFinger(A, 40); else beatFinger(B, -40);
+  finger.classList.toggle("pressed", held);
+  finger.style.opacity = fop;
+  finger.style.left = target.cx + "px";
+  finger.style.top = cellCY + fy + "px";
+  finger.style.scale = held ? 0.82 : 1;
+
+  Anim.ripple(ripple, 0, 0, (t - A.fin) / 0.5);
+}
+
+Anim.run(render, DUR, "#stage");
+</script>
+</body>
+</html>

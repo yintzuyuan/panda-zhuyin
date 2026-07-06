@@ -1,22 +1,10 @@
+/* spectrum.css 改由各頁 <head> 以 <link> 並行載入（#854，避免 @import 序列請求鏈） */
+
 /* ===== Panda Zhuyin Design System ===== */
 /* 貓熊黑白配色 + 腮紅粉/棕色點綴 */
 
 /* ===== 0. CSS Variables ===== */
 :root {
-  /* Panda Light */
-  --bg: #fafaf5;
-  --bg-alt: #f2f0eb;
-  --bg-card: #ffffff;
-  --text: #161616;
-  --text-secondary: #6b6b6b;
-  --border: #e0dbd3;
-  --border-light: #eae6df;
-
-  /* Panda Accents */
-  --accent: #b09a85;
-  --accent-pink: #d4918a;
-  --accent-muted: #b0859a;
-
   /* Spacing */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
@@ -36,20 +24,10 @@
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(22, 22, 22, 0.06);
   --shadow-md: 0 4px 12px rgba(22, 22, 22, 0.08);
-  --shadow-hover: 0 8px 24px rgba(212, 145, 138, 0.18);
+  --shadow-hover: 0 8px 24px rgba(214, 116, 138, 0.18);
 }
 
 [data-theme="dark"] {
-  --bg: #151515;
-  --bg-alt: #1c1c1c;
-  --bg-card: #242424;
-  --text: #e5e5e0;
-  --text-secondary: #8a8a8a;
-  --border: #3a3a3a;
-  --border-light: #2e2e2e;
-  --accent: #c4ad97;
-  --accent-pink: #d4918a;
-  --accent-muted: #c49ab0;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -162,15 +140,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-.hero-icon {
-  width: 280px;
-  height: 280px;
-  border-radius: 56px;
-  filter: drop-shadow(0 12px 32px rgba(22, 22, 22, 0.12));
-}
-[data-theme="dark"] .hero-icon-light { display: none; }
-[data-theme="dark"] .hero-icon-dark { display: block; }
-.hero-icon-dark { display: none; }
 
 /* ===== 5. Shared Components ===== */
 .section { padding: var(--space-xl) 0; }
@@ -180,7 +149,7 @@ body {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-secondary);
   margin-bottom: var(--space-lg);
   display: flex;
   align-items: center;
@@ -214,7 +183,7 @@ body {
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   padding: 0.75rem 1.5rem;
-  background: var(--accent-pink);
+  background: var(--rose);
   color: #ffffff;
   border: none;
   border-radius: 6px;
@@ -227,12 +196,12 @@ body {
   gap: 0.4em;
 }
 .btn-primary:hover {
-  background: #c47e77;
+  background: color-mix(in srgb, var(--rose) 82%, black);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 
-/* App Store badge — 沿用 hero-icon 的淺/深色切換模式 */
+/* App Store badge — 淺/深色雙圖切換模式 */
 .app-store-badge {
   display: inline-flex;
   align-items: center;
@@ -268,6 +237,92 @@ body {
 .js-fade-ready .fade-in { opacity: 0; transform: translateY(16px); }
 .js-fade-ready .fade-in.visible { animation: fadeInUp 0.6s ease forwards; }
 
+/* ===== #838 光譜元件 ===== */
+
+/* header 導覽連結（說明書入口） */
+.site-nav { display: flex; gap: 1.25rem; margin-right: 0.5rem; }
+.site-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--teal); }
+
+/* flick 十字 motif：中央實點＋四方向淡點（區塊標記用，色跟隨 .c-*） */
+.fcross { position: relative; width: 1.35rem; height: 1.35rem; flex: none; }
+.fcross i {
+  position: absolute; width: 0.3rem; height: 0.3rem; border-radius: 50%;
+  background: currentColor; left: 50%; top: 50%; translate: -50% -50%;
+}
+.fcross i:nth-child(2) { translate: -50% calc(-50% - 0.5rem); opacity: 0.45; }
+.fcross i:nth-child(3) { translate: -50% calc(-50% + 0.5rem); opacity: 0.45; }
+.fcross i:nth-child(4) { translate: calc(-50% - 0.5rem) -50%; opacity: 0.45; }
+.fcross i:nth-child(5) { translate: calc(-50% + 0.5rem) -50%; opacity: 0.45; }
+
+/* persona pill 色點（取代 icon） */
+.pill-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; flex: none; }
+
+/* hero flick 鍵演示（ㄉ 鍵，鍵位與 manual/animations/initial.html 一致） */
+.flick-demo { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.fd-pad { position: relative; width: 260px; height: 260px; }
+.fd-center {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+  width: 92px; height: 92px; border-radius: 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 34px; font-weight: 700; color: var(--text); z-index: 2;
+}
+.fd-hints { display: flex; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 2px; }
+.fd-petal {
+  position: absolute; width: 64px; height: 64px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; font-weight: 700; color: var(--on-color);
+  opacity: 0; scale: 0.55; z-index: 1;
+}
+.fd-petal.up    { left: 50%; top: 8px;  translate: -50%;    background: var(--amber);  animation: fd-bloom 8s infinite; }
+.fd-petal.left  { left: 12px; top: 50%; translate: 0 -50%;  background: var(--jade);   animation: fd-bloom 8s 2s infinite; }
+.fd-petal.right { right: 12px; top: 50%; translate: 0 -50%; background: var(--jade);   animation: fd-bloom 8s 4s infinite; }
+.fd-petal.down  { left: 50%; bottom: 8px; translate: -50%;  background: var(--indigo); animation: fd-bloom 8s 6s infinite; }
+@keyframes fd-bloom {
+  0%, 6%    { opacity: 0; scale: 0.55; }
+  10%, 20%  { opacity: 1; scale: 1; }
+  26%, 100% { opacity: 0; scale: 0.55; }
+}
+.fd-finger {
+  position: absolute; left: 50%; top: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(22, 22, 22, 0.28);
+  translate: -50% -50%; opacity: 0; z-index: 3;
+  animation: fd-finger 8s infinite;
+}
+[data-theme="dark"] .fd-finger { background: rgba(255, 255, 255, 0.30); }
+@keyframes fd-finger {
+  0%          { opacity: 0;    transform: translate(0, 0); }
+  2%, 5%      { opacity: 0.9;  transform: translate(0, 0); }
+  10%         { opacity: 0.9;  transform: translate(0, -72px); }
+  14%         { opacity: 0;    transform: translate(0, -72px); }
+  25%, 27.5%  { opacity: 0.9;  transform: translate(0, 0); }
+  32.5%       { opacity: 0.9;  transform: translate(-72px, 0); }
+  36.5%       { opacity: 0;    transform: translate(-72px, 0); }
+  50%, 52.5%  { opacity: 0.9;  transform: translate(0, 0); }
+  57.5%       { opacity: 0.9;  transform: translate(72px, 0); }
+  61.5%       { opacity: 0;    transform: translate(72px, 0); }
+  75%, 77.5%  { opacity: 0.9;  transform: translate(0, 0); }
+  82.5%       { opacity: 0.9;  transform: translate(0, 72px); }
+  86.5%, 100% { opacity: 0;    transform: translate(0, 72px); }
+}
+.fd-caption { font-size: 0.85rem; color: var(--text-secondary); }
+@media (prefers-reduced-motion: reduce) {
+  .fd-petal, .fd-finger { animation: none; }
+  .fd-petal { opacity: 1; scale: 1; }
+  .fd-finger { display: none; }
+}
+
+/* How It Works 尾端導流說明書 */
+.manual-cta { margin-top: var(--space-md); }
+
 /* ===== 5b. Video ===== */
 .video-wrapper {
   width: 100%;
@@ -301,10 +356,17 @@ body {
 .how-step:first-child { border-top: none; padding-top: var(--space-sm); }
 .how-step-no {
   font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.05em;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--on-color);
+  background: var(--jade);
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
   line-height: 1;
 }
 .how-step-body h3 {
@@ -388,7 +450,7 @@ body {
 }
 .feature-cluster-list li::before {
   content: "— ";
-  color: var(--accent);
+  color: var(--indigo);
 }
 
 /* ===== 7. CTA Section ===== */
@@ -637,7 +699,7 @@ body {
   border-bottom: 1px solid transparent;
   transition: color 0.2s, border-color 0.2s;
 }
-.cta-secondary:hover { color: var(--text); border-bottom-color: var(--accent); }
+.cta-secondary:hover { color: var(--text); border-bottom-color: var(--jade); }
 .cta-secondary .ph { font-size: 1.1em; }
 
 /* ===== Hero L2 — sub-persona 認領 pills（fold 線下方） ===== */
@@ -675,19 +737,13 @@ body {
   transition: border-color 0.2s, transform 0.15s;
 }
 .persona-pill:hover {
-  border-color: var(--accent);
+  border-color: var(--amber);
   transform: translateY(-1px);
 }
-.persona-pill-icon {
-  font-size: 1.15em;
-  color: var(--accent);
-  line-height: 1;
-}
-.persona-pill:hover .persona-pill-icon { color: var(--accent-pink); }
 .hero-personas-link {
   display: inline-block;
   margin-top: var(--space-sm);
-  color: var(--accent);
+  color: var(--amber);
   text-decoration: none;
   font-size: 0.9rem;
 }
@@ -717,7 +773,7 @@ body {
   margin: 0 auto var(--space-md);
   background: var(--bg-alt);
   border-radius: 50%;
-  color: var(--accent);
+  color: var(--amber);
   font-size: 2.2rem;
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -752,7 +808,7 @@ body {
   gap: 0.4em;
 }
 .privacy-facts-editorial h3 .ph {
-  color: var(--accent);
+  color: var(--jade);
   font-size: 1.1em;
 }
 .privacy-facts-editorial p {
@@ -814,7 +870,6 @@ html[data-lang="en"] body { line-height: 1.7; }
     gap: var(--space-lg);
   }
   .hero-visual { order: -1; }
-  .hero-icon { width: 180px; height: 180px; border-radius: 36px; }
   .hero-text h1 { font-size: 2.4rem; }
   .footer-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
   .cta-actions { flex-direction: column; }

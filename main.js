@@ -10,6 +10,7 @@
   // --- i18n: 雙語切換 ---
   // 中文寫在 textContent（HTML 預設），英文寫在 data-en attribute
   // 首次切到 en 前把當前 textContent（中文）存進 data-zh，之後雙向切換
+  // aria-label 同構：中文寫在 aria-label（HTML 預設），英文寫在 data-aria-en（#854）
   function applyLang(lang) {
     document.querySelectorAll('[data-en]').forEach(function (el) {
       if (lang === 'en') {
@@ -20,12 +21,24 @@
         if (zh != null) el.textContent = zh;
       }
     });
+    document.querySelectorAll('[data-aria-en]').forEach(function (el) {
+      if (lang === 'en') {
+        if (!el.hasAttribute('data-aria-zh')) el.setAttribute('data-aria-zh', el.getAttribute('aria-label') || '');
+        el.setAttribute('aria-label', el.getAttribute('data-aria-en'));
+      } else {
+        var ariaZh = el.getAttribute('data-aria-zh');
+        if (ariaZh != null) el.setAttribute('aria-label', ariaZh);
+      }
+    });
     root.dataset.lang = lang;
     root.lang = lang === 'zh' ? 'zh-TW' : 'en';
 
     document.querySelectorAll('[data-lang-set]').forEach(function (btn) {
       btn.classList.toggle('active', btn.getAttribute('data-lang-set') === lang);
     });
+
+    // theme toggle 的 aria-label 由 updateToggleIcon 依語言動態組字，切語言時同步刷新
+    updateToggleIcon(root.getAttribute('data-theme'));
 
     try { localStorage.setItem(STORAGE_LANG, lang); } catch (e) {}
   }

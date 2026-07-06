@@ -38,7 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Icons -->
-  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk" crossorigin="anonymous"></script>
 
   <!-- FOUC Prevention：theme + lang 預判 -->
   <script>
@@ -57,6 +57,7 @@
     })();
   </script>
 
+  <link rel="stylesheet" href="shared/spectrum.css">
   <link rel="stylesheet" href="style.css">
 
   <!-- Analytics -->
@@ -89,8 +90,11 @@
         <img src="assets/app-icon/icon-dark.png" alt="" class="site-logo-icon site-logo-icon-dark" width="28" height="28">
         <span data-en="Panda Zhuyin">胖打注音</span>
       </a>
+      <nav class="site-nav" aria-label="主要導覽" data-aria-en="Main navigation">
+        <a href="manual/" data-en="Manual">說明書</a>
+      </nav>
       <div class="header-controls">
-        <div class="lang-switcher" role="group" aria-label="Language switcher">
+        <div class="lang-switcher" role="group" aria-label="語言切換" data-aria-en="Language switcher">
           <button data-lang-set="zh" aria-label="切換至繁體中文">中</button>
           <span class="divider" aria-hidden="true">|</span>
           <button data-lang-set="en" aria-label="Switch to English">EN</button>
@@ -114,7 +118,7 @@
         <div class="cta-actions">
           <a href="https://apps.apple.com/tw/app/%E8%83%96%E6%89%93%E6%B3%A8%E9%9F%B3/id6761426494"
              class="app-store-badge" target="_blank" rel="noopener"
-             aria-label="從 App Store 下載胖打注音">
+             aria-label="從 App Store 下載胖打注音" data-aria-en="Download Panda Zhuyin on the App Store">
             <img src="assets/app-store-badge/badge-black.svg" alt="Download on the App Store"
                  class="badge-light" width="203" height="60">
             <img src="assets/app-store-badge/badge-white.svg" alt="Download on the App Store"
@@ -127,8 +131,19 @@
         </div>
       </div>
       <div class="hero-visual">
-        <img src="assets/app-icon/icon-light.png" alt="" class="hero-icon hero-icon-light" width="280" height="280">
-        <img src="assets/app-icon/icon-dark.png" alt="" class="hero-icon hero-icon-dark" width="280" height="280">
+        <div class="flick-demo" aria-label="胖打注音 ㄉ 鍵四方向滑動演示" data-aria-en="Panda Zhuyin ㄉ key four-direction flick demo">
+          <div class="fd-pad">
+            <div class="fd-petal up">ㄊ</div>
+            <div class="fd-petal left">ㄋ</div>
+            <div class="fd-petal right">ㄋ</div>
+            <div class="fd-petal down">ㄌ</div>
+            <div class="fd-center">ㄉ
+              <div class="fd-hints"><span class="c-amber">ㄊ</span><span class="c-jade">ㄋ</span><span class="c-indigo">ㄌ</span></div>
+            </div>
+            <div class="fd-finger"></div>
+          </div>
+          <div class="fd-caption" data-en="One key, five sounds — tap the center, flick four ways.">一顆鍵、五個音——點中央，滑四方。</div>
+        </div>
       </div>
     </div>
 
@@ -138,11 +153,11 @@
         如果你屬於以下任一族 — 這些是為你做的入口：
       </p>
       <div class="persona-pills">
-        <a href="#for-who" class="persona-pill"><i class="ph ph-hand persona-pill-icon"></i> <span data-en="Thumby fingers">粗手指族</span></a>
-        <a href="#for-who" class="persona-pill"><i class="ph ph-lock persona-pill-icon"></i> <span data-en="Privacy-conscious">隱私族</span></a>
-        <a href="#for-who" class="persona-pill"><i class="ph ph-eye persona-pill-icon"></i> <span data-en="Aging eyes">視力老花</span></a>
-        <a href="#for-who" class="persona-pill"><i class="ph ph-hand-swipe-right persona-pill-icon"></i> <span data-en="Flick lovers">flick 愛好者</span></a>
-        <a href="#for-who" class="persona-pill"><i class="ph ph-translate persona-pill-icon"></i> <span data-en="JP flick users">日文 flick 用戶</span></a>
+        <a href="#for-who" class="persona-pill"><span class="pill-dot" style="background: var(--amber)"></span> <span data-en="Thumby fingers">粗手指族</span></a>
+        <a href="#for-who" class="persona-pill"><span class="pill-dot" style="background: var(--teal)"></span> <span data-en="Privacy-conscious">隱私族</span></a>
+        <a href="#for-who" class="persona-pill"><span class="pill-dot" style="background: var(--jade)"></span> <span data-en="Aging eyes">視力老花</span></a>
+        <a href="#for-who" class="persona-pill"><span class="pill-dot" style="background: var(--rose)"></span> <span data-en="Flick lovers">flick 愛好者</span></a>
+        <a href="#for-who" class="persona-pill"><span class="pill-dot" style="background: var(--indigo)"></span> <span data-en="JP flick users">日文 flick 用戶</span></a>
       </div>
       <a href="#for-who" class="hero-personas-link"><span data-en="See which fits you →">看哪個最像你 →</span></a>
     </div>
@@ -151,7 +166,7 @@
   <!-- Demo Video -->
   <section class="section" id="demo">
     <div class="container">
-      <div class="section-label">Demo</div>
+      <div class="section-label"><span class="fcross c-jade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>Demo</div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/8rjWwh3-Qes" title="胖打注音 Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -164,31 +179,32 @@
   <section class="section" id="for-who">
     <div class="container">
       <div class="section-label">
+        <span class="fcross c-amber" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="For Who · 為誰做的">For Who · 為誰做的</span>
       </div>
       <div class="persona-grid">
         <div class="persona-card">
-          <div class="persona-card-icon"><i class="ph ph-hand"></i></div>
+          <div class="persona-card-icon" style="color: var(--amber)"><i class="ph ph-hand"></i></div>
           <h3 data-en="Thumby fingers">粗手指族</h3>
           <p data-en="Fingers on the thicker side — built-in bopomofo's tiny keys pack so tight you keep hitting the wrong one.">手指偏粗，內建注音的小鍵密集排列常按錯隔壁。</p>
         </div>
         <div class="persona-card">
-          <div class="persona-card-icon"><i class="ph ph-lock"></i></div>
+          <div class="persona-card-icon" style="color: var(--teal)"><i class="ph ph-lock"></i></div>
           <h3 data-en="Privacy-conscious">隱私族</h3>
           <p data-en="Don't want to use cloud-based input methods that upload your data.">不想用會上傳資料的雲端輸入法。</p>
         </div>
         <div class="persona-card">
-          <div class="persona-card-icon"><i class="ph ph-eye"></i></div>
+          <div class="persona-card-icon" style="color: var(--jade)"><i class="ph ph-eye"></i></div>
           <h3 data-en="Aging eyes">視力老花</h3>
           <p data-en="Hard to read tiny keys — need bigger ones.">小鍵看不清楚，需要更大字鍵。</p>
         </div>
         <div class="persona-card">
-          <div class="persona-card-icon"><i class="ph ph-hand-swipe-right"></i></div>
+          <div class="persona-card-icon" style="color: var(--rose)"><i class="ph ph-hand-swipe-right"></i></div>
           <h3 data-en="Flick lovers">flick 愛好者</h3>
           <p data-en="Bring the Japanese-style flick logic to bopomofo.">日式 flick 邏輯帶到注音。</p>
         </div>
         <div class="persona-card">
-          <div class="persona-card-icon"><i class="ph ph-translate"></i></div>
+          <div class="persona-card-icon" style="color: var(--indigo)"><i class="ph ph-translate"></i></div>
           <h3 data-en="JP flick users">日文 flick 用戶</h3>
           <p data-en="Same gesture muscle memory carries across languages.">同一手勢肌肉記憶可跨語言。</p>
         </div>
@@ -202,6 +218,7 @@
   <section class="section">
     <div class="container">
       <div class="section-label fade-in">
+        <span class="fcross c-jade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="How It Works · 怎麼運作">How It Works · 怎麼運作</span>
       </div>
       <ol class="how-steps">
@@ -227,6 +244,7 @@
           </div>
         </li>
       </ol>
+      <p class="manual-cta"><a href="manual/" class="cta-secondary"><span data-en="Full tutorial with animations →">完整圖解教學 →</span></a></p>
     </div>
   </section>
 
@@ -236,6 +254,7 @@
   <section class="section" id="advanced">
     <div class="container">
       <div class="section-label">
+        <span class="fcross c-plum" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="Advanced · 進階體驗">Advanced · 進階體驗</span>
       </div>
       <div class="advanced-list">
@@ -265,7 +284,7 @@
             <h3 data-en="Number-key flick to Chinese numerals">數字鍵下滑漢字數字</h3>
             <span class="advanced-entry-meta" data-en="Flick input">Flick 輸入</span>
           </header>
-          <p data-en="Flick down on a number key to type Chinese numerals 一/二/三/四 directly — no need to type Arabic numerals first then pick from candidates.">數字鍵往下滑直接輸入漢字小寫一/二/三/四 — 不用先打阿拉伯數字再從候選挑。</p>
+          <p data-en="Flick down on a number key to type Chinese numerals 一/二/三 directly — the same gesture works on the bopomofo, Latin, and symbol keyboards.">數字鍵往下滑直接輸入漢字小寫一/二/三——同一個手勢在注音、拉丁、符號鍵盤都通用。</p>
         </article>
       </div>
     </div>
@@ -277,6 +296,7 @@
   <section class="section privacy-section" id="privacy">
     <div class="container">
       <div class="section-label fade-in">
+        <span class="fcross c-jade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="Privacy · 隱私">Privacy · 隱私</span>
       </div>
       <div class="privacy-facts-editorial">
@@ -307,6 +327,7 @@
   <section class="section">
     <div class="container">
       <div class="section-label">
+        <span class="fcross c-indigo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="Features · 完整功能">Features · 完整功能</span>
       </div>
 
@@ -358,6 +379,7 @@
   <section class="section tipjar-section" id="support">
     <div class="container">
       <div class="section-label">
+        <span class="fcross c-rose" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-en="Support · 支持">Support · 支持</span>
       </div>
       <h2 data-en="Core forever free. If you enjoy it, buy me a coffee.">核心永遠免費。用得開心，請我喝杯咖啡。</h2>
@@ -417,7 +439,7 @@
          class="cta-secondary"
          target="_blank" rel="noopener"
          data-umami-event="android-form-click"
-         aria-label="填寫胖打注音 Android 版需求調查（Google Forms，新分頁開啟）">
+         aria-label="填寫胖打注音 Android 版需求調查（Google Forms，新分頁開啟）" data-aria-en="Fill out the Panda Zhuyin Android interest survey (Google Forms, opens in a new tab)">
         <i class="ph ph-android-logo" aria-hidden="true"></i>
         <span data-en="Fill out the request (~30s)">填寫需求調查（約 30 秒）</span>
       </a>

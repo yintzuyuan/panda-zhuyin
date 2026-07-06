@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聲母滑動 — 胖打注音說明書動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/palette.css">
+<link rel="stylesheet" href="shared/keyboard.css">
+<link rel="stylesheet" href="shared/quadrant-halo.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .stage { width: 540px; height: 540px; }
+  .key { width: 134px; height: 106px; }
+  .kc { font-size: 46px; }
+  .petal { font-size: 40px; }
+  .petal.center { font-size: 46px; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- 4 音段：ㄉ（上ㄊ / 左右ㄋ / 下ㄌ） -->
+  <section class="scene" id="sceneD"
+    style="--c-up:var(--amber);--c-left:var(--jade);--c-right:var(--jade);--c-down:var(--indigo);--c-ctr:var(--rose)">
+    <div class="halo"></div>
+    <div class="hpulse up"></div><div class="hpulse left"></div><div class="hpulse right"></div><div class="hpulse down"></div>
+    <div class="key">
+      <span class="kc">ㄉ</span>
+      <div class="hints"><span class="kh c-amber">ㄊ</span><span class="kh c-jade">ㄋ</span><span class="kh c-indigo">ㄌ</span></div>
+    </div>
+    <div class="petal up"><span>ㄊ</span></div>
+    <div class="petal left"><span>ㄋ</span></div>
+    <div class="petal right"><span>ㄋ</span></div>
+    <div class="petal down"><span>ㄌ</span></div>
+    <div class="petal center"><span>ㄉ</span></div>
+    <div class="ripple"></div>
+    <div class="finger"></div>
+  </section>
+
+  <!-- 3 音段：ㄗ（上左ㄘ / 右下ㄙ，照使用者 2-2 版；對角色暈） -->
+  <section class="scene" id="sceneZ"
+    style="--c-up:var(--amber);--c-left:var(--amber);--c-right:var(--teal);--c-down:var(--teal);--c-ctr:var(--rose)">
+    <div class="halo"></div>
+    <div class="hpulse up"></div><div class="hpulse left"></div><div class="hpulse right"></div><div class="hpulse down"></div>
+    <div class="key">
+      <span class="kc">ㄗ</span>
+      <div class="hints"><span class="kh c-amber">ㄘ</span><span class="kh c-teal">ㄙ</span></div>
+    </div>
+    <div class="petal up"><span>ㄘ</span></div>
+    <div class="petal left"><span>ㄘ</span></div>
+    <div class="petal right"><span>ㄙ</span></div>
+    <div class="petal down"><span>ㄙ</span></div>
+    <div class="petal center"><span>ㄗ</span></div>
+    <div class="ripple"></div>
+    <div class="finger"></div>
+  </section>
+
+</div>
+
+<script src="shared/anim-engine.js"></script>
+<script>
+const dirs = ["up", "left", "right", "down"];
+// 指尖滑出停點（花瓣已緊貼鍵緣 → 滑到鍵緣稍外即可）。
+const FOFF = { up: [0, -74], down: [0, 74], left: [-96, 0], right: [96, 0] };
+const RIPPLE_DUR = 0.5;
+
+// 單段內部時間軸（秒）：點擊 → 上 → 左 → 右 → 下。
+const beats = [
+  { kind: "tap",                 t0: 0.50, t1: 1.20 },
+  { kind: "flick", dir: "up",    t0: 1.32, t1: 2.17 },
+  { kind: "flick", dir: "left",  t0: 2.29, t1: 3.14 },
+  { kind: "flick", dir: "right", t0: 3.26, t1: 4.11 },
+  { kind: "flick", dir: "down",  t0: 4.23, t1: 5.08 },
+];
+const SEG = 5.58;   // 含尾段 rest
+const CF = 0.5;     // 段間交叉淡接
+
+function S(sel, hint) {
+  const r = document.querySelector(sel);
+  const petal = {}, hpulse = {};
+  dirs.forEach((d) => {
+    petal[d] = r.querySelector(".petal." + d);
+    hpulse[d] = r.querySelector(".hpulse." + d);
+  });
+  return { root: r, key: r.querySelector(".key"),
+           center: r.querySelector(".petal.center"),
+           hints: Array.from(r.querySelectorAll(".kh")), hint,
+           finger: r.querySelector(".finger"), ripple: r.querySelector(".ripple"), petal, hpulse };
+}
+// hint = flick 方向 → 底排提示索引（ㄉ：上ㄊ0／左右ㄋ1／下ㄌ2；ㄗ：上左ㄘ0／右下ㄙ1）。
+const D = S("#sceneD", { up: 0, left: 1, right: 1, down: 2 });
+const Z = S("#sceneZ", { up: 0, left: 0, right: 1, down: 1 });
+
+function setFinger(s, op, x, y, sc) {
+  s.finger.style.opacity = op;
+  s.finger.style.translate = `calc(-50% + ${x}px) calc(-50% + ${y}px)`;
+  s.finger.style.scale = sc == null ? 1 : sc;
+}
+
+function renderScene(s, ls, op) {
+  s.root.style.opacity = op.toFixed(3);
+  // —— base reset（確定性：每幀明確歸零）——
+  setFinger(s, 0, 0, 0, 1);
+  s.finger.classList.remove("pressed");
+  s.ripple.style.opacity = 0;
+  s.center.style.opacity = 0; s.center.style.scale = 0.55;
+  s.hints.forEach((h) => h.classList.remove("lit"));
+  dirs.forEach((d) => {
+    s.petal[d].style.opacity = 0; s.petal[d].style.scale = 0.55;
+    s.hpulse[d].style.opacity = 0;
+  });
+  if (op <= 0.002) return;
+
+  const b = beats.find((bb) => ls >= bb.t0 && ls < bb.t1);
+  if (!b) return; // rest（色暈仍常駐）
+
+  const dur = b.t1 - b.t0, lt = ls - b.t0;
+
+  if (b.kind === "tap") {
+    const approach = 0.18, lift = 0.18, restY = 20;  // 觸點略低於中心，不遮住點亮的主字
+    if (lt < approach) {
+      const p = Anim.easeOut(lt / approach);
+      setFinger(s, p, 0, Anim.lerp(-70, restY, p), Anim.lerp(1.25, 1, p));
+    } else if (lt > dur - lift) {
+      const p = Anim.easeOut((lt - (dur - lift)) / lift);
+      setFinger(s, 1 - p, 0, Anim.lerp(restY, -6, p), 1);
+    } else {
+      setFinger(s, 1, 0, restY, 1);
+    }
+    Anim.ripple(s.ripple, 0, restY, lt / RIPPLE_DUR);   // 自觸點放射漣漪
+    // 中央高亮磚（與花瓣一致的有色磚，pop-in）。
+    let p = Anim.clamp01((lt - approach * 0.5) / 0.22);
+    if (lt > dur - lift) p *= 1 - Anim.easeOut((lt - (dur - lift)) / lift);
+    p = Anim.clamp01(p);
+    s.center.style.opacity = p;
+    s.center.style.scale = 0.55 + 0.45 * Anim.easeOutBack(p);
+    return;
+  }
+
+  // flick（按下 → 按住片刻 → 滑動）：押入態 + hold dwell，與「輕點」明顯區別。
+  const d = b.dir, [ox, oy] = FOFF[d];
+  const appear = 0.08, hold = 0.18, slide = 0.26, rel = 0.16;
+  Anim.ripple(s.ripple, 0, 0, lt / RIPPLE_DUR);   // 落點放射漣漪
+  s.finger.classList.add("pressed");              // 按住態：環變粗變實
+
+  let fop = 1, fx = 0, fy = 0;
+  if (lt < appear) fop = Anim.easeOut(lt / appear);
+  if (lt >= hold) {
+    const p = Anim.easeOut((lt - hold) / slide);
+    fx = ox * p; fy = oy * p;
+  }
+  if (lt > dur - rel) fop = 1 - Anim.easeOut((lt - (dur - rel)) / rel);
+  setFinger(s, fop, fx, fy, 0.82);                // 收縮＝壓入
+
+  let pr = lt >= hold ? Anim.easeOut((lt - hold) / slide) : 0;
+  if (lt > dur - rel) pr *= 1 - Anim.easeOut((lt - (dur - rel)) / rel);
+  s.petal[d].style.opacity = pr;
+  s.petal[d].style.scale = Anim.lerp(0.55, 1, pr);
+
+  if (pr > 0.15) s.hints[s.hint[d]].classList.add("lit");   // 只點亮（透明度），不縮放 → 不抖
+  s.hpulse[d].style.opacity = 0.85 * pr;
+}
+
+function render(gt) {
+  const aEnd = SEG, x1End = SEG + CF, zEnd = 2 * SEG + CF;
+  let opD, opZ, lsD, lsZ;
+  if (gt < aEnd) { opD = 1; opZ = 0; lsD = gt; lsZ = 0; }
+  else if (gt < x1End) { const p = (gt - aEnd) / CF; opD = 1 - Anim.clamp01(p * 2); opZ = Anim.clamp01(p * 2 - 1); lsD = SEG; lsZ = 0; }
+  else if (gt < zEnd) { opD = 0; opZ = 1; lsD = SEG; lsZ = gt - x1End; }
+  else { const p = (gt - zEnd) / CF; opZ = 1 - Anim.clamp01(p * 2); opD = Anim.clamp01(p * 2 - 1); lsZ = SEG; lsD = 0; }
+  renderScene(D, lsD, opD);
+  renderScene(Z, lsZ, opZ);
+}
+
+Anim.shapePetals();   // 套用五邊形花瓣 clip-path（尖端朝按鍵）。
+Anim.run(render, 2 * SEG + 2 * CF, "#stage");
+</script>
+</body>
+</html>

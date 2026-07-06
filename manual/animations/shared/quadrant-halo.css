@@ -1,0 +1,26 @@
+/* 四象限色暈（signature）：按鍵下方常駐的放射色光，四向 wedge 各取該向目標字色，
+   靜止時就一直在 → 無聲預告「四個方向 → 四種不同結果」。
+   - conic-gradient 切四向 90° wedge（從 -45° 起，0–90° 對到上方 wedge）。
+   - 低模糊保留「顏色明顯區隔」的放射spokes；mask 向外淡出成柔光，中央被按鍵蓋住。
+   - 相鄰同色 wedge（如 ㄉ 的左右皆 Jade、ㄗ 的對角 2-2）自然融成一塊，正好表達「同向同果」。
+   scene root 需提供 --c-up/--c-right/--c-down/--c-left。 */
+
+.halo {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 290px; height: 290px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: conic-gradient(from -45deg,
+    var(--c-up)    0deg  90deg,
+    var(--c-right) 90deg  180deg,
+    var(--c-down)  180deg 270deg,
+    var(--c-left)  270deg 360deg);
+  filter: blur(11px);
+  -webkit-mask: radial-gradient(circle at center,
+    #000 20%, rgba(0,0,0,0.55) 44%, transparent 70%);
+          mask: radial-gradient(circle at center,
+    #000 20%, rgba(0,0,0,0.55) 44%, transparent 70%);
+  opacity: var(--halo-opacity);
+  z-index: 0;
+}

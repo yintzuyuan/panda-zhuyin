@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>說明書動畫預覽 — 胖打注音</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf5; --bg-card: #ffffff; --text: #161616; --text-2: #6b6b6b;
+    --border: #e0dbd3; --accent: #b09a85; --accent-pink: #d4918a;
+  }
+  body.dark {
+    --bg: #151515; --bg-card: #242424; --text: #e5e5e0; --text-2: #8a8a8a;
+    --border: #3a3a3a; --accent: #c4ad97;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Sans TC", -apple-system, sans-serif;
+    transition: background .3s, color .3s; padding: 48px 24px 80px;
+  }
+  header { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+  .eyebrow {
+    font-family: "JetBrains Mono", monospace; font-size: .72rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  h1 { font-family: "Noto Serif TC", serif; font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  p.sub { color: var(--text-2); font-size: .95rem; line-height: 1.7; }
+  .toggle {
+    display: inline-flex; gap: 2px; margin-top: 22px; padding: 3px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px;
+  }
+  .toggle button {
+    font-family: inherit; font-size: .82rem; border: 0; background: transparent; color: var(--text-2);
+    padding: 6px 18px; border-radius: 999px; cursor: pointer;
+  }
+  .toggle button.on { background: var(--accent-pink); color: #fff; }
+  .grid { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 20px; box-shadow: 0 1px 3px rgba(22,22,22,.05);
+  }
+  .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+  .card .desc { color: var(--text-2); font-size: .85rem; margin-bottom: 14px; line-height: 1.6; }
+  .frame-wrap { display: flex; justify-content: center; border-radius: 14px; overflow: hidden; background: var(--bg); }
+  iframe { border: 0; display: block; }
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Panda Zhuyin · Manual</div>
+  <h1>說明書動畫預覽</h1>
+  <p class="sub">核心與進階手勢的動態圖。最終匯出為動畫 WebP / GIF，供官網與 App 說明分頁使用。</p>
+  <div class="toggle" id="toggle">
+    <button data-theme="light" class="on">淺色</button>
+    <button data-theme="dark">深色</button>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const CLIPS = [
+  { file: "initial.html",     title: "聲母滑動（4 音 ㄉ → 3 音 ㄗ）", desc: "點擊輸入主字；上左右下滑動帶出花瓣。按鍵下方四象限色暈常駐，預告四向結果。", w: 540, h: 540 },
+  { file: "medial-u.html",    title: "介音 ㄨ 組合韻母", desc: "按住 ㄨ 往三個方向滑，停在不同深度的韻母（ㄨㄤ / ㄨㄟ / ㄨㄛ），滑過的格子逐一高亮。", w: 640, h: 420 },
+  { file: "number-down.html", title: "數字鍵下滑漢字", desc: "按下數字出現泡泡預覽，往下滑時按鍵與泡泡一起由「5」轉成「五」。", w: 640, h: 300 },
+  { file: "bracket-pair.html", title: "括號鍵：點開邊、下滑閉邊", desc: "點一下輸出開邊「；再按住往下滑，鍵面與泡泡一起換成閉邊」——一顆鍵補完一對括號。", w: 640, h: 300 },
+  { file: "vowel-variant.html", title: "台語韻母上下拉變體", desc: "按住 ㄚ 往下拉滑入鼻化 ㆩ、往上拉滑入 -m 尾 ㆰ；格子上下緣的圓點提示可用方向（#848）。", w: 640, h: 360 },
+];
+let theme = "light";
+const grid = document.getElementById("grid");
+
+function build() {
+  grid.innerHTML = "";
+  for (const c of CLIPS) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML =
+      `<h2>${c.title}</h2><div class="desc">${c.desc}</div>` +
+      `<div class="frame-wrap"><iframe src="${c.file}?theme=${theme}&v=${Date.now()}" ` +
+      `width="${c.w}" height="${c.h}" scrolling="no"></iframe></div>`;
+    grid.appendChild(card);
+  }
+}
+document.getElementById("toggle").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  theme = b.dataset.theme;
+  document.body.classList.toggle("dark", theme === "dark");
+  document.querySelectorAll(".toggle button").forEach((x) => x.classList.toggle("on", x === b));
+  build();
+});
+build();
+</script>
+</body>
+</html>

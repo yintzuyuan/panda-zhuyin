@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>數字下滑漢字 — 胖打注音說明書動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/palette.css">
+<link rel="stylesheet" href="shared/keyboard.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .stage { width: 640px; height: 300px; --c-ctr: var(--indigo); }
+  .numkey {
+    position: absolute; width: 78px; height: 108px;   /* 對齊 APP 直式按鍵長寬比 ~0.72 */
+    background: var(--key); border: 1px solid var(--key-edge); border-radius: 14px;
+    box-shadow: 0 1px 3px var(--shadow);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .numkey .t {
+    position: absolute; font-size: 40px; font-weight: 700; color: var(--text); line-height: 1;
+  }
+  .numkey .hanzi { color: var(--indigo); }
+  .bubble { font-size: 38px; }
+  .bubble .t { position: absolute; }
+  .bubble .hanzi { color: var(--on-color); }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <!-- 數字鍵列在 JS 內建；中央 5 可下滑轉漢字，兩側鄰鍵漸淡。 -->
+  <div class="bubble" id="bubble">
+    <span class="t digit" id="bDigit">5</span>
+    <span class="t hanzi" id="bHanzi">五</span>
+  </div>
+  <div class="ripple" id="ripple"></div>
+  <div class="finger" id="finger"></div>
+</div>
+
+<script src="shared/anim-engine.js"></script>
+<script>
+const stage = document.getElementById("stage");
+const finger = document.getElementById("finger");
+const ripple = document.getElementById("ripple");
+const bubble = document.getElementById("bubble");
+const bDigit = document.getElementById("bDigit");
+const bHanzi = document.getElementById("bHanzi");
+
+const HAN = { 3: "三", 4: "四", 5: "五", 6: "六", 7: "七" };
+const ROW = [3, 4, 5, 6, 7];
+const CENTER_I = 2;            // 中央 = 5
+const KW = 78, KH = 108, GAP = 10;
+const rowW = ROW.length * KW + (ROW.length - 1) * GAP;
+const x0 = (640 - rowW) / 2;
+const keyTop = 116, keyCY = keyTop + KH / 2;
+const SLIDE = 16;             // 對齊 NumberInputKey.slideDistance
+
+// 建數字鍵列。
+const centerKey = {};
+ROW.forEach((d, i) => {
+  const k = document.createElement("div");
+  k.className = "numkey";
+  k.style.left = x0 + i * (KW + GAP) + "px";
+  k.style.top = keyTop + "px";
+  const dist = Math.abs(i - CENTER_I);
+  k.style.opacity = (1 - 0.38 * dist).toFixed(2);   // 兩側漸淡
+  const digit = document.createElement("span");
+  digit.className = "t digit"; digit.textContent = d;
+  k.appendChild(digit);
+  if (i === CENTER_I) {
+    const han = document.createElement("span");
+    han.className = "t hanzi"; han.textContent = HAN[d];
+    k.appendChild(han);
+    centerKey.el = k; centerKey.digit = digit; centerKey.hanzi = han;
+    centerKey.cx = x0 + i * (KW + GAP) + KW / 2;
+  }
+  stage.appendChild(k);
+});
+
+// 泡泡（與圖一花瓣同形：五邊形、尖端朝下指向按鍵）。
+const BW = 66, BH = 66;
+bubble.style.width = BW + "px";
+bubble.style.height = BH + "px";
+bubble.style.left = centerKey.cx - BW / 2 + "px";
+bubble.style.top = keyTop - BH - 6 + "px";   // 尖端落在按鍵上緣略上方
+bubble.style.paddingBottom = "15px";          // 字面推離下尖端
+Anim.applyPetalShape(bubble, "up", 7);
+
+// 漣漪定位在 5 鍵中心。
+ripple.style.left = centerKey.cx + "px";
+ripple.style.top = keyCY + "px";
+
+// 時間軸（秒）。
+const T = {
+  pressIn: 0.55, holdDigit: 0.85,
+  flickStart: 1.15, flickRamp: 1.34,    // downProg 0→1
+  holdHanzi: 1.50, release: 2.15, releaseEnd: 2.5,
+};
+const DUR = 3.0;
+
+// 兩層字面 morph：digit 下滑淡出、hanzi 自上滑入（對齊 NumberInputKey）。
+function applyMorph(digitEl, hanziEl, down) {
+  digitEl.style.opacity = 1 - down;
+  digitEl.style.transform = `translateY(${down * SLIDE}px)`;
+  hanziEl.style.opacity = down;
+  hanziEl.style.transform = `translateY(${(down - 1) * SLIDE}px)`;
+}
+
+function render(t) {
+  // downProg：進入 flick 後 0→1，release 後快速回 0（鍵回數字、預備 loop）。
+  let down = 0;
+  if (t >= T.flickStart) down = Anim.easeOut((t - T.flickStart) / (T.flickRamp - T.flickStart));
+  if (t >= T.release) down *= 1 - Anim.easeOut((t - T.release) / (T.releaseEnd - T.release));
+  down = Anim.clamp01(down);
+
+  // 中央鍵 morph（按下回饋改由泡泡＋字面 morph 承載，不改變按鍵表面）。
+  applyMorph(centerKey.digit, centerKey.hanzi, down);
+
+  // 泡泡：press 後淡入，release 淡出；內容隨 down morph。
+  const bubbleVis = Anim.clamp01((t - 0.7) / 0.2) * (1 - Anim.clamp01((t - T.release) / (T.releaseEnd - T.release)));
+  bubble.style.opacity = bubbleVis;
+  applyMorph(bDigit, bHanzi, down);
+
+  // 指尖：自上落下 → 按住 → 下滑 → 抬起淡出。
+  let fop = 0, fy = -60;
+  if (t < T.pressIn) { const p = Anim.easeOut(t / T.pressIn); fop = p; fy = Anim.lerp(-60, 0, p); }
+  else if (t < T.flickStart) { fop = 1; fy = 0; }
+  else if (t < T.release) { const p = Anim.easeOut((t - T.flickStart) / (T.release - T.flickStart)); fop = 1; fy = Anim.lerp(0, 46, p); }
+  else if (t < T.releaseEnd) { const p = Anim.easeOut((t - T.release) / (T.releaseEnd - T.release)); fop = 1 - p; fy = Anim.lerp(46, 24, p); }
+  const held = t >= T.pressIn * 0.85 && t < T.release;   // 按住下滑 → 押入態
+  finger.classList.toggle("pressed", held);
+  finger.style.opacity = fop;
+  finger.style.left = centerKey.cx + "px";
+  finger.style.top = keyCY + fy + "px";
+  finger.style.scale = held ? 0.82 : 1;
+
+  Anim.ripple(ripple, 0, 0, (t - 0.52) / 0.5);   // 按下時自 5 鍵放射漣漪
+}
+
+Anim.run(render, DUR, "#stage");
+</script>
+</body>
+</html>

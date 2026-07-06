@@ -1,0 +1,158 @@
+/* 說明書動畫共用鍵盤元件樣式。
+   造型沿用互動原型 docs/bopomofo-keyboard-v10.html（.key/.key-dir/bubble/fs-cell），
+   重新著色到「注音光譜」與官網極簡介面。幾何（鍵大小、花瓣位移）各動畫自行於 <style> 覆寫。 */
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+
+html, body {
+  font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* 舞台：固定尺寸盒，匯出時截此元素。 */
+.stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  margin: 0 auto;
+}
+
+/* 兩段交叉淡接（影像 1 ㄉ→ㄗ）。單舞台多 scene 疊放、各自控 opacity。 */
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+}
+
+/* —— 按鍵 —— */
+.key {
+  position: absolute;
+  left: 50%; top: 50%;
+  translate: -50% -50%;
+  background: var(--key);
+  border: 1px solid var(--key-edge);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px var(--shadow);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: none; /* 動畫由 JS 逐幀驅動，避免 CSS transition 干擾確定性匯出 */
+}
+/* 刻意不改變按下時的按鍵表面：快速 tap→flick 序列若每幀切換明暗會閃爍。
+   互動回饋改由花瓣／中央高亮磚／字面 morph 承載。 */
+
+/* 中心主字（鍵的安靜錨點，常態中性色）。 */
+.kc {
+  position: relative;
+  font-weight: 700;
+  color: var(--text);
+  z-index: 2;
+  line-height: 1;
+}
+
+/* 底排提示（對齊 APP FlickKeyLabel：主字下方一排小字，非四角重複）。各字配該音色，滑動時點亮。 */
+.hints { display: flex; gap: 7px; margin-top: 3px; }
+.kh { font-size: 22px; font-weight: 600; line-height: 1; opacity: 0.55; }
+.kh.lit { opacity: 1; }
+.c-rose { color: var(--rose); }  .c-amber { color: var(--amber); }  .c-jade { color: var(--jade); }
+.c-teal { color: var(--teal); }  .c-indigo { color: var(--indigo); }  .c-plum { color: var(--plum); }
+
+/* —— 花瓣預覽（短滑）：往該方向綻放的圓角磚，填該字色。 —— */
+.petal {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 60px; height: 60px;
+  border-radius: 16px;          /* 中央磚用；尖角花瓣形狀由 JS clip-path（五邊形）覆寫 */
+  display: flex; align-items: center; justify-content: center;
+  color: var(--on-color);
+  font-weight: 700;
+  filter: drop-shadow(0 5px 12px var(--shadow-strong));  /* drop-shadow 貼合 clip-path 輪廓（box-shadow 會被裁掉） */
+  opacity: 0;
+  scale: 0.55;
+  z-index: 5;
+}
+/* 尺寸＝鍵尺寸＋尖端延伸、緊貼鍵緣（照 app BopomofoPreviewBubble：花瓣＝按鍵大小、tip 疊進鍵緣）。
+   padding 把字面推離尖端（對齊 app 文字內縮 20%）。 */
+.petal.up    { width: 134px; height: 132px; translate: -50% calc(-50% - 93px);  background: var(--c-up);    padding-bottom: 26px; }
+.petal.down  { width: 134px; height: 132px; translate: -50% calc(-50% + 93px);  background: var(--c-down);  padding-top: 26px; }
+.petal.left  { width: 160px; height: 106px; translate: calc(-50% - 121px) -50%; background: var(--c-left);  padding-right: 32px; }
+.petal.right { width: 160px; height: 106px; translate: calc(-50% + 121px) -50%; background: var(--c-right); padding-left: 32px; }
+
+/* 中央高亮磚（tap）：≈ 鍵尺寸的有色磚（同 app 按下格），無尖角。 */
+.petal.center { width: 128px; height: 100px; translate: -50% -50%; background: var(--c-ctr); }
+
+/* —— 四象限色暈：見 quadrant-halo.css。方向脈動光斑（滑動時該象限微亮）。 —— */
+.hpulse {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  filter: blur(16px);
+  opacity: 0;
+  z-index: 0;
+}
+.hpulse.up    { translate: -50% calc(-50% - 96px); background: radial-gradient(circle, var(--c-up), transparent 70%); }
+.hpulse.down  { translate: -50% calc(-50% + 96px); background: radial-gradient(circle, var(--c-down), transparent 70%); }
+.hpulse.left  { translate: calc(-50% - 110px) -50%; background: radial-gradient(circle, var(--c-left), transparent 70%); }
+.hpulse.right { translate: calc(-50% + 110px) -50%; background: radial-gradient(circle, var(--c-right), transparent 70%); }
+
+/* —— 幽靈指尖：空心環（高亮結果從中間透出，不會被蓋灰）—— */
+.finger {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: transparent;
+  border: 3px solid var(--finger-ring);
+  translate: -50% -50%;
+  opacity: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+/* 按住態（按下滑動）：環變粗、變實 → 與「輕點」區別。配合收縮（JS scale）。 */
+.finger.pressed { border-width: 4.5px; border-color: var(--finger-ring-held); }
+
+/* —— 點按漣漪：自觸點向外擴散＋淡出的空心環 —— */
+.ripple {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--finger-ring);
+  translate: -50% -50%;
+  opacity: 0;
+  scale: 0.3;
+  z-index: 7;
+  pointer-events: none;
+}
+
+/* —— 泡泡（向上預覽，數字鍵用）：圓角磚 + 朝下尖角（與花瓣一致）。 —— */
+.bubble {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 56px; height: 56px; padding: 0 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  background: var(--c-ctr, var(--rose));
+  color: var(--on-color);
+  filter: drop-shadow(0 6px 16px var(--shadow-strong));  /* 形狀＝JS clip-path 五邊形（尖端朝下） */
+  opacity: 0;
+  z-index: 7;
+}
+
+/* —— 韻母十字格（介音用，沿用原型 fs-cell）。 —— */
+.cell {
+  position: absolute;
+  left: 50%; top: 50%;
+  translate: -50% -50%;
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+  background: var(--key);
+  border: 1px solid var(--key-edge);
+  color: var(--text);
+  box-shadow: 0 3px 12px var(--shadow);
+  opacity: 0;
+  z-index: 4;
+}
+.cell.active { color: var(--on-color); border-color: transparent; }
