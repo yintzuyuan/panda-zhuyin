@@ -320,7 +320,7 @@ body {
   .fd-finger { display: none; }
 }
 
-/* How It Works 尾端導流說明書 */
+/* 區塊尾端導流說明書（How It Works / Taigi / Themes 共用） */
 .manual-cta { margin-top: var(--space-md); }
 
 /* ===== 5b. Video ===== */
@@ -385,7 +385,7 @@ body {
   .how-step { grid-template-columns: 3rem 1fr; gap: var(--space-sm); }
 }
 
-/* ===== 6d. Advanced — editorial entries (Recipe 2 inset) ===== */
+/* ===== 6d. Editorial entries（Advanced / Taigi / Themes 共用，Recipe 2 inset） ===== */
 .advanced-list {
   max-width: 44rem;
   margin: 0 auto;
@@ -649,12 +649,6 @@ body {
   margin: 0 auto var(--space-lg);
   line-height: 1.8;
 }
-.tipjar-disclaimer {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  margin-top: var(--space-md);
-}
-
 .support-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -828,6 +822,7 @@ body {
   margin: var(--space-md) auto var(--space-md);
   padding: var(--space-sm) var(--space-md);
   border-left: 1px solid var(--border-light);
+  text-align: left;
   font-family: var(--font-serif);
   color: var(--text-secondary);
   line-height: 1.8;
@@ -861,10 +856,15 @@ html[data-lang="en"] body { line-height: 1.7; }
 .advanced-entry p,
 .feature-cluster-body,
 .tipjar-lead,
-.tipjar-disclaimer,
 .features-disclaimer,
 .android-request-body,
-.privacy-facts-editorial p {
+.privacy-facts-editorial p,
+/* 說明書（manual/）內文 —— 比照首頁長文改用 CJK 黑體 */
+.man-hero p,
+.chap-text p,
+.chap-tip span,
+.sup-col ul,
+.man-end p {
   font-family: var(--font-sans-cjk);
 }
 
