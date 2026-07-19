@@ -71,7 +71,6 @@ h1{font-family:var(--font-serif);font-size:clamp(1.7rem,5vw,2.15rem);font-weight
 
 /* ── 對比行 ── */
 .contrast{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:stretch;margin-bottom:1rem}
-@media (max-width:540px){.contrast{grid-template-columns:1fr;gap:.5rem}.vs{display:none}}
 .cside{background:var(--bg-alt);border-radius:.9rem;padding:.85rem 1rem;text-align:center}
 .clabel{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;color:var(--text-secondary);margin-bottom:.45rem}
 .cval{font-size:2.1rem;line-height:1.25;min-height:2.7rem;letter-spacing:.04em;display:flex;justify-content:center;align-items:baseline;gap:.02em;flex-wrap:wrap}
@@ -224,4 +223,24 @@ h1{font-family:var(--font-serif);font-size:clamp(1.7rem,5vw,2.15rem);font-weight
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
+}
+
+/* 手機（≤540px）：壓縮跟著打區各元素，讓「選字 chip ＋ 對比行 ＋ 鍵盤 ＋ 圖例」在同一屏內
+   檢視完整輸入流程。置於檔末，確保覆蓋前面各元素的桌面值（同 specificity 取後者）。 */
+@media (max-width:540px){
+  .wrap{padding-top:1.8rem}
+  .picker{margin-bottom:1.1rem;gap:.4rem}
+  .contrast{grid-template-columns:1fr;gap:.35rem;margin-bottom:.7rem}
+  .vs{display:none}
+  .cside{padding:.5rem .8rem;border-radius:.7rem}
+  .clabel{margin-bottom:.2rem}
+  .cval{font-size:1.5rem;min-height:1.8rem}
+  .croma{margin-top:.15rem}
+  .step-label{margin-bottom:.45rem;min-height:1.1rem}
+  .kb-stage{padding-top:3rem}
+  .kb{gap:.35rem}
+  .key{min-height:3.2rem}
+  .key .main{font-size:1.15rem}
+  .key .kh{font-size:.55rem}
+  .cell{font-size:.85rem}
 }
