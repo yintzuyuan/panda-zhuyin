@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方音符號拼寫規則 — 胖打注音 Panda Zhuyin</title>
+  <meta name="description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+
+  <link rel="canonical" href="https://erikyin.net/panda-zhuyin/taigi-spelling.html">
+
+  <meta property="og:title" content="方音符號拼寫規則 — 胖打注音 Panda Zhuyin">
+  <meta property="og:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
+  <meta property="og:url" content="https://erikyin.net/panda-zhuyin/taigi-spelling.html">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="方音符號拼寫規則 — 胖打注音 Panda Zhuyin">
+  <meta name="twitter:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+  <meta name="twitter:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/app-icon/icon-light.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- FOUC Prevention：theme + lang 預判 -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('panda-theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+        else if (matchMedia('(prefers-color-scheme:dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+
+        var l = localStorage.getItem('panda-lang') ||
+          ((navigator.language || 'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        document.documentElement.dataset.lang = l;
+        document.documentElement.lang = l === 'zh' ? 'zh-TW' : 'en';
+      } catch (e) {}
+      document.documentElement.classList.add('js-loading');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="shared/spectrum.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="taigi-spelling.css">
+
+  <!-- Analytics -->
+  <script defer src="https://analytics.erikyin.net/script.js" data-website-id="ccc8f182-3fc3-488a-8eec-446d1af94c64"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="assets/app-icon/icon-light.png" alt="胖打注音" class="site-logo-icon site-logo-icon-light" width="28" height="28">
+        <img src="assets/app-icon/icon-dark.png" alt="" class="site-logo-icon site-logo-icon-dark" width="28" height="28">
+        <span data-en="Panda Zhuyin">胖打注音</span>
+      </a>
+      <div class="header-controls">
+        <div class="lang-switcher" role="group" aria-label="語言切換" data-aria-en="Language switcher">
+          <button data-lang-set="zh" aria-label="切換至繁體中文">中</button>
+          <span class="divider" aria-hidden="true">|</span>
+          <button data-lang-set="en" aria-label="Switch to English">EN</button>
+        </div>
+        <button class="header-btn" id="theme-toggle" aria-label="切換深色模式">
+          <i class="ph ph-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page -->
+  <main class="wrap">
+    <h1 data-en="Typing Taigi with Zhuyin isn't what you'd guess">用注音打台語，<br>拼法跟你想的不一樣</h1>
+    <p class="lede">「東」在國語拼 <span class="bp bp-zh">ㄉㄨㄥ</span>，台語卻是 <span class="bp bp-tw">ㄉㆲ</span>。挑一個字，看它在鍵盤上一步步打出來——<b>每個字剛好示範一條台語拼寫規則</b>。</p>
+
+    <section class="sec" id="secPlay" style="margin-top:2.6rem">
+      <div class="sec-head">
+        <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="sec-label">跟著打</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="picker" id="picker" role="tablist" aria-label="選字"></div>
+
+      <div class="contrast">
+        <div class="cside zh">
+          <div class="clabel">國語注音</div>
+          <div class="cval" id="zhVal"></div>
+          <div class="cnote" id="zhNote"></div>
+        </div>
+        <div class="vs">vs</div>
+        <div class="cside tw">
+          <div class="clabel">台語方音符號</div>
+          <div class="cval" id="twVal"><span class="caret" id="caret"></span></div>
+          <div class="croma" id="twRoma"></div>
+        </div>
+      </div>
+
+      <div class="step-label" id="stepLabel"></div>
+
+      <div class="kb-stage" id="stage">
+        <div class="kb" id="kb"></div>
+        <div class="finger" id="finger"></div>
+        <div class="ripple" id="ripple"></div>
+        <div class="bubble" id="bubble"></div>
+      </div>
+
+      <div class="legend">
+        <span><i class="ldot" style="background:var(--rose)"></i>聲母</span>
+        <span><i class="ldot" style="background:var(--jade)"></i>介音</span>
+        <span><i class="ldot" style="background:var(--teal)"></i>韻母</span>
+        <span><i class="ldot" style="background:var(--amber)"></i>聲調</span>
+        <span><i class="ldot" style="background:var(--plum)"></i>入聲尾</span>
+        <span><i class="ldot" style="background:var(--indigo)"></i>鼻化</span>
+      </div>
+
+      <div class="rule" id="rule"><span class="rtag">拼寫規則</span><span id="ruleText"></span></div>
+      <div class="replay"><button id="replayBtn">↻ 再播一次</button></div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="sec-label">聲調</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="sec-title">台語有七個聲調</div>
+      <p class="sec-sub">縱軸是音高、線是走勢。點任一個調看怎麼打；有三個調和國語對得上（虛線）。</p>
+      <div class="card">
+        <svg id="toneChart" viewBox="0 0 640 210" role="img" aria-label="台語七聲調五度圖"></svg>
+        <div class="tone-detail" id="toneDetail"></div>
+        <div class="tone-neutral">另有<b>輕聲 ˙</b>：聲調鍵往左滑。例：起去 khí--khì＝ㄎㄧˋ ㄎㄧ˙。</div>
+        <div class="tone-legend">
+          <span><i class="lg-solid"></i>台語調</span>
+          <span><i class="lg-dash"></i>國語對應調</span>
+          <span><i class="lg-short"></i>入聲＝短促</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="sec-label">想知道更多</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="sec-title">還有這些細節</div>
+      <p class="sec-sub">對打字影響較小，好奇再點開。</p>
+
+      <div class="fold">
+        <button class="fold-head"><span class="fold-badge">寫法</span><span class="fold-q">這些符號手寫怎麼寫？</span><span class="fold-caret">＋</span></button>
+        <div class="fold-body"><div class="fold-inner">
+          <div class="ph-row"><span class="ph-glyph">ㆠ</span><span class="ph-glyph">ㆩ</span><span class="ph-glyph">ㆦ</span></div>
+          濁音末筆畫圈、鼻化韻畫圈且交叉出頭、ㆦ 第二筆是缺一角的菱形；入聲尾寫在最後一個韻母的右側。
+        </div></div>
+      </div>
+
+      <div class="fold">
+        <button class="fold-head"><span class="fold-badge">版本</span><span class="fold-q">不同版本寫法不一樣？</span><span class="fold-caret">＋</span></button>
+        <div class="fold-body"><div class="fold-inner">
+          <div class="ph-row"><span class="ph-glyph">ㆲ</span><span class="ph-glyph">ㄛㄥ</span></div>
+          教育部通行式、楊青矗式、國小教材式各有差異（例：國小教材把 ong 寫成 ㄛㄥ、鼻化改用小圈゜）；地方腔另有偏漳的 ㄝ、偏泉的 ㆨ。
+        </div></div>
+      </div>
+
+      <div class="fold">
+        <button class="fold-head"><span class="fold-badge">來歷</span><span class="fold-q">方音符號是誰做的？</span><span class="fold-caret">＋</span></button>
+        <div class="fold-body"><div class="fold-inner">
+          <div class="timeline">
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1946</div><div class="tl-label">朱兆祥設計</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1998</div><div class="tl-label">教育部公告</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2006</div><div class="tl-label">改推臺羅</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-label">Unicode 13 收 ㆻ</div></div>
+          </div>
+          以注音符號為基礎、增補台語需要的音；通行腔共 49 個符號（26 沿用注音、23 新造）。
+        </div></div>
+      </div>
+    </section>
+
+    <p class="foot">內容參考維基百科〈<a href="https://zh.wikipedia.org/wiki/臺灣方音符號">臺灣方音符號</a>〉（CC BY-SA 4.0）。想實際打打看？先看<a href="manual/#c6">說明書：台語模式</a>，或<a href="https://apps.apple.com/tw/app/id6761426494">下載胖打注音</a>。</p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-copyright" data-en="© 2026 TzuYuan Yin (Erik Yin)">&copy; 2026 殷慈遠 (Erik Yin)</span>
+      <div class="footer-links">
+        <a href="index.html" data-en="← Back to home">返回首頁</a>
+        <a href="terms.html" data-en="Terms">服務條款</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="taigi-spelling-data.js"></script>
+  <script src="taigi-spelling.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

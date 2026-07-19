@@ -1,0 +1,227 @@
+/* #1054 方音符號拼寫規則頁——頁面樣式。
+   移植自 docs/superpowers/plans/assets/2026-07-19-taigi-spelling/mockup.html <style>（L10–252）。
+   token 對齊官網（spectrum.css / style.css）：--bg/--text/--border/光譜色/--shadow-sm 刪除沿用官網值；
+   --text-2 併入官網 --text-secondary；--key* 系列與 --font-kb 為鍵盤專屬 token，官網沒有，保留。
+   --font-serif / --font-mono 在此覆蓋官網值，把 "BPMF Fallback" 加到堆疊最前——方音符號一律走系統黑體。
+   本頁 section 標記十字原名 .fcross，與 style.css:253 官網共用的 .fcross（單色五點）同名不同義；
+   已改名 .sec-dots 區隔，避免污染共用設計系統（#1054 review）。 */
+
+:root {
+  --key:#ffffff; --key-edge:#e4ded4;
+  --kshadow:rgba(22,22,22,.10); --kshadow-strong:rgba(22,22,22,.16);
+  --finger-ring:rgba(40,36,33,.42); --finger-ring-held:rgba(40,36,33,.62);
+  --font-serif:"BPMF Fallback","Noto Serif TC","Source Han Serif TC","PMingLiU",serif;
+  --font-mono:"BPMF Fallback","JetBrains Mono","SF Mono","Fira Code",monospace;
+  --font-kb:"BPMF Fallback","Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
+}
+[data-theme="dark"] {
+  --key:#262626; --key-edge:#3a3a3a;
+  --kshadow:rgba(0,0,0,.45); --kshadow-strong:rgba(0,0,0,.6);
+  --finger-ring:rgba(255,255,255,.55); --finger-ring-held:rgba(255,255,255,.8);
+}
+
+/* 方音符號／調號／陽入點走系統黑體（unicode-range 只攔注音類碼位；
+   臺羅拉丁的 combining U+030D/0358/207F 不攔——跟拉丁字母同字體才能正確結合） */
+@font-face{
+  font-family:"BPMF Fallback";
+  src:local("PingFang TC"),local("Heiti TC"),local("Microsoft JhengHei");
+  unicode-range:U+3105-312F,U+31A0-31BF,U+02CA,U+02CB,U+02D9,U+02EA,U+02EB,U+0307;
+}
+
+/* 頁面主體排版容器（body 沿用官網 style.css，不覆蓋；上下留白改放這裡） */
+.wrap{max-width:42rem;margin:0 auto;padding:var(--space-xl) var(--space-md) var(--space-2xl);font-family:var(--font-kb)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:.3rem}
+
+h1{font-family:var(--font-serif);font-size:clamp(1.7rem,5vw,2.15rem);font-weight:700;line-height:1.35;margin-bottom:.7rem;letter-spacing:.01em}
+.lede{color:var(--text-secondary);font-size:1.02rem;max-width:36rem}
+.lede b{color:var(--text);font-weight:600}
+.lede .bp{padding:0 .1em}
+.bp-zh{color:var(--text-secondary)}
+.bp-tw{color:var(--teal);font-weight:600}
+
+/* ── section 標記（呼應官網 fcross 十字語彙）── */
+.sec{margin-top:4rem}
+.sec-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem}
+.sec-dots{display:grid;grid-template-columns:repeat(3,4px);grid-template-rows:repeat(3,4px);gap:2px;flex-shrink:0}
+.sec-dots i{border-radius:999px;background:var(--border)}
+.sec-dots i:nth-child(2){background:var(--rose)}
+.sec-dots i:nth-child(4){background:var(--jade)}
+.sec-dots i:nth-child(5){background:var(--amber)}
+.sec-dots i:nth-child(6){background:var(--teal)}
+.sec-dots i:nth-child(8){background:var(--plum)}
+.sec-dots i:nth-child(1),.sec-dots i:nth-child(3),.sec-dots i:nth-child(7),.sec-dots i:nth-child(9){opacity:0}
+.sec-label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.16em;color:var(--text-secondary)}
+.sec-rule{flex:1;height:1px;background:var(--border)}
+.sec-title{font-family:var(--font-serif);font-size:1.4rem;font-weight:700;margin-bottom:.3rem}
+.sec-sub{color:var(--text-secondary);font-size:.9rem;margin-bottom:1.5rem;max-width:34rem}
+
+/* ── 字選單 ── */
+.picker{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;padding-bottom:1.2rem}
+.chip{
+  width:2.7rem;height:2.7rem;display:grid;place-items:center;position:relative;
+  font-family:inherit;font-size:1.3rem;
+  border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  border-radius:.75rem;cursor:pointer;transition:transform .18s,border-color .18s,background .18s;
+  box-shadow:var(--shadow-sm);
+}
+.chip:hover{transform:translateY(-2px);border-color:var(--text-secondary)}
+.chip.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip .tag{position:absolute;bottom:-1.25rem;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:.55rem;letter-spacing:.02em;color:var(--text-secondary);white-space:nowrap}
+
+/* ── 對比行 ── */
+.contrast{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:stretch;margin-bottom:1rem}
+@media (max-width:540px){.contrast{grid-template-columns:1fr;gap:.5rem}.vs{display:none}}
+.cside{background:var(--bg-alt);border-radius:.9rem;padding:.85rem 1rem;text-align:center}
+.clabel{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;color:var(--text-secondary);margin-bottom:.45rem}
+.cval{font-size:2.1rem;line-height:1.25;min-height:2.7rem;letter-spacing:.04em;display:flex;justify-content:center;align-items:baseline;gap:.02em;flex-wrap:wrap}
+.cside.zh .cval{color:var(--text-secondary)}
+.cnote{font-family:var(--font-mono);font-size:.62rem;color:var(--text-secondary);margin-top:.25rem;min-height:.9rem}
+.croma{font-family:var(--font-mono);font-size:.72rem;color:var(--text-secondary);margin-top:.25rem}
+.vs{display:flex;align-items:center;font-family:var(--font-mono);font-size:.7rem;color:var(--text-secondary)}
+.bch{display:inline-block;animation:bin .28s cubic-bezier(.2,.9,.3,1.2)}
+.bch.tone-mark{font-size:.6em;align-self:flex-start;transform:translateY(.15em)}
+@keyframes bin{0%{opacity:0;transform:translateY(.35em) scale(.7)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.bch.morph{animation:bmorph .3s ease}
+@keyframes bmorph{0%{opacity:0;transform:translateY(-.3em)}100%{opacity:1;transform:translateY(0)}}
+.r-initial{color:var(--rose)} .r-medial{color:var(--jade)} .r-final{color:var(--teal)}
+.r-tone{color:var(--amber)} .r-coda{color:var(--plum)} .r-nasal{color:var(--indigo)}
+.cval .commit{color:var(--text);font-weight:700;animation:bin .35s cubic-bezier(.2,.9,.3,1.25)}
+.caret{display:inline-block;width:2px;height:1.9rem;background:var(--teal);vertical-align:-.35rem;animation:blink 1.05s step-end infinite;margin-left:.06em}
+@keyframes blink{50%{opacity:0}}
+
+.step-label{text-align:center;font-family:var(--font-mono);font-size:.78rem;color:var(--text-secondary);min-height:1.4rem;margin-bottom:.9rem}
+
+/* ══ 鍵盤舞台（樣式對齊 manual/animations/shared/keyboard.css）══ */
+.kb-stage{position:relative;padding-top:4.4rem} /* 花瓣泡泡出頭空間 */
+.kb{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.key{
+  background:var(--key);border:1px solid var(--key-edge);border-radius:16px;
+  min-height:3.8rem;position:relative;color:var(--text);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 1px 3px var(--kshadow);
+  font-family:var(--font-kb);
+}
+/* 照 keyboard.css 註解：不做按下明暗變化——回饋由花瓣／漣漪／指尖／字面 morph 承載 */
+.key .main{font-size:1.35rem;font-weight:700;line-height:1}
+.key .hints{display:flex;gap:5px;margin-top:3px}
+.key .kh{font-size:.62rem;font-weight:600;line-height:1;opacity:.5;transition:opacity .15s}
+.key .kh.lit{opacity:1}
+.kh.c-rose{color:var(--rose)} .kh.c-amber{color:var(--amber)}
+.key .sub{position:absolute;bottom:.2rem;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:.48rem;color:var(--text-secondary);letter-spacing:.05em}
+/* 韻母條：內距後四格均分（對齊 VowelSliderView cellRect） */
+.key.strip{padding:.3rem}
+.cells{display:grid;grid-template-columns:repeat(4,1fr);width:100%;height:100%;min-height:3rem}
+.cell{position:relative;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:600}
+.cell .face{position:relative;height:1.4em;width:100%;text-align:center}
+.cell .face span{position:absolute;left:0;right:0;top:0;transition:transform .12s ease-out,opacity .12s ease-out}
+.cell .face .variant{opacity:0}
+/* 提示點（#848）：上緣＝有上拉變體、下緣＝有下拉變體 */
+.cell .dot{position:absolute;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:999px;background:var(--text-secondary);opacity:.6;transition:opacity .12s}
+.cell .dot.up{top:2px}.cell .dot.down{bottom:2px}
+.cell.variant-showing .dot{opacity:0}
+
+/* 花瓣泡泡（keyboard.css .bubble：光譜色填色五邊形、尖端朝下、drop-shadow） */
+.bubble{
+  position:absolute;z-index:30;pointer-events:none;
+  width:64px;height:62px;padding:0 8px 16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;font-weight:700;line-height:1;
+  color:var(--on-color);background:var(--teal);
+  filter:drop-shadow(0 6px 16px var(--kshadow-strong));
+  opacity:0;transform:translate(-50%,-100%) scale(.75);transform-origin:50% 100%;
+  transition:opacity .14s ease-out,transform .16s cubic-bezier(.2,.9,.3,1.2),background .15s;
+  font-family:var(--font-kb);
+}
+.bubble.show{opacity:1}
+.bubble.bb-initial{background:var(--rose)} .bubble.bb-medial{background:var(--jade)}
+.bubble.bb-final{background:var(--teal)}   .bubble.bb-tone{background:var(--amber)}
+.bubble.bb-coda{background:var(--plum)}    .bubble.bb-nasal{background:var(--indigo)}
+
+/* 幽靈指尖（keyboard.css .finger：空心環，按住變粗變實） */
+.finger{
+  position:absolute;width:32px;height:32px;border-radius:50%;
+  background:transparent;border:2.5px solid var(--finger-ring);
+  transform:translate(-50%,-50%);opacity:0;z-index:40;pointer-events:none;
+  transition:left .4s cubic-bezier(.3,0,.2,1),top .4s cubic-bezier(.3,0,.2,1),
+             border-width .12s,border-color .12s,opacity .2s;
+}
+.finger.press{border-width:4px;border-color:var(--finger-ring-held)}
+/* 點按漣漪（keyboard.css .ripple：空心環擴散淡出） */
+.ripple{
+  position:absolute;width:46px;height:46px;border-radius:50%;
+  border:2px solid var(--finger-ring);
+  transform:translate(-50%,-50%) scale(.3);opacity:0;z-index:35;pointer-events:none;
+}
+.ripple.go{animation:rip .5s ease-out}
+@keyframes rip{0%{transform:translate(-50%,-50%) scale(.3);opacity:.42}100%{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
+
+/* 部件圖例 */
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.1rem;font-family:var(--font-mono);font-size:.66rem;color:var(--text-secondary);justify-content:center}
+.legend span{display:inline-flex;align-items:center;gap:.32rem}
+.ldot{width:.55rem;height:.55rem;border-radius:999px}
+
+/* 規則註記 */
+.rule{
+  margin-top:1.4rem;padding:.95rem 1.15rem;border-left:3px solid var(--amber);
+  background:color-mix(in srgb,var(--amber) 7%,transparent);border-radius:.35rem .7rem .7rem .35rem;
+  font-size:.98rem;min-height:3.4rem;opacity:0;transition:opacity .45s;
+}
+.rule.show{opacity:1}
+.rule b{font-weight:700}
+.rule .rtag{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;color:var(--amber);display:block;margin-bottom:.2rem}
+.replay{margin-top:1rem;text-align:center}
+.replay button{border:1px solid var(--border);background:var(--bg-card);border-radius:999px;padding:.42rem 1.15rem;font-size:.75rem;cursor:pointer;font-family:var(--font-mono);color:var(--text-secondary);transition:color .2s,border-color .2s}
+.replay button:hover{color:var(--text);border-color:var(--text-secondary)}
+
+/* ── 聲調圖表 ── */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:1.1rem;padding:1.6rem 1.4rem;box-shadow:var(--shadow-sm)}
+#toneChart{width:100%;height:auto;display:block}
+#toneChart .grid-line{stroke:var(--border);stroke-width:1}
+#toneChart .grid-label,#toneChart .axis-cap{fill:var(--text-secondary);font-size:10px;font-family:var(--font-mono)}
+#toneChart .tw-curve{stroke:var(--amber);stroke-width:4;fill:none;stroke-linecap:round;transition:stroke .2s,stroke-width .2s}
+#toneChart .zh-curve{stroke:var(--text-secondary);stroke-width:1.8;fill:none;stroke-dasharray:4 4;stroke-linecap:round;opacity:.55}
+#toneChart .t-hanzi{fill:var(--text);font-size:19px;text-anchor:middle;font-family:var(--font-kb)}
+#toneChart .t-name{fill:var(--text-secondary);font-size:10px;text-anchor:middle;font-family:var(--font-mono)}
+#toneChart .t-badge{fill:var(--teal);font-size:9px;text-anchor:middle;font-family:var(--font-mono)}
+#toneChart .hitbox{fill:transparent;cursor:pointer}
+#toneChart .col-bg{fill:transparent;transition:fill .15s}
+#toneChart .tone-col:hover .col-bg{fill:color-mix(in srgb,var(--amber) 5%,transparent)}
+#toneChart .tone-col.active .tw-curve{stroke:var(--teal);stroke-width:5.5}
+#toneChart .tone-col.active .col-bg{fill:color-mix(in srgb,var(--amber) 10%,transparent)}
+.tone-detail{margin-top:1.2rem;padding-top:1.1rem;border-top:1px dashed var(--border);font-size:.96rem;min-height:4rem}
+.tone-detail .td-glyph{font-size:1.5rem;margin-right:.3rem}
+.tone-detail .td-bridge{color:var(--teal);font-weight:600}
+.tone-detail .td-gest{display:block;margin-top:.75rem;padding:.6rem .85rem;font-size:.92rem;color:var(--text);background:color-mix(in srgb,var(--teal) 9%,transparent);border-left:3px solid var(--teal);border-radius:.35rem .6rem .6rem .35rem}
+.tone-neutral{margin-top:1rem;font-size:.82rem;font-family:var(--font-mono);color:var(--text-secondary)}
+.tone-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:1rem;font-family:var(--font-mono);font-size:.68rem;color:var(--text-secondary)}
+.tone-legend span{display:inline-flex;align-items:center;gap:.4rem}
+.lg-solid{width:1.3rem;border-top:3px solid var(--amber)}
+.lg-dash{width:1.3rem;border-top:2px dashed var(--text-secondary)}
+.lg-short{width:.75rem;border-top:3px solid var(--amber)}
+
+/* ── 摺疊 ── */
+.fold{border:1px solid var(--border);border-radius:.9rem;margin-top:.7rem;overflow:hidden;background:var(--bg-card);box-shadow:var(--shadow-sm)}
+.fold-head{width:100%;display:flex;align-items:center;gap:.85rem;text-align:left;background:none;border:none;cursor:pointer;padding:1rem 1.25rem;font-size:.98rem}
+.fold-badge{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;color:var(--text-secondary);border:1px solid var(--border);border-radius:999px;padding:.12rem .55rem}
+.fold-q{flex:1;font-weight:600}
+.fold-caret{color:var(--text-secondary);font-size:1.15rem;transition:transform .25s;font-family:var(--font-mono)}
+.fold[data-open] .fold-caret{transform:rotate(45deg)}
+.fold-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.fold[data-open] .fold-body{max-height:480px}
+.fold-inner{padding:0 1.25rem 1.25rem;font-size:.92rem;color:var(--text-secondary)}
+.ph-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:.55rem 0}
+.ph-glyph{font-size:1.7rem;color:var(--text);background:var(--bg-alt);border-radius:.55rem;padding:.35rem .7rem}
+.timeline{display:flex;justify-content:space-between;position:relative;margin:1.4rem 0 .4rem;padding:0 .4rem}
+.timeline::before{content:"";position:absolute;top:.42rem;left:1rem;right:1rem;height:2px;background:var(--border)}
+.tl-node{position:relative;text-align:center;flex:1}
+.tl-dot{width:.8rem;height:.8rem;border-radius:999px;background:var(--teal);margin:0 auto .45rem;position:relative;z-index:1}
+.tl-year{font-family:var(--font-mono);font-weight:500;font-size:.82rem;color:var(--text)}
+.tl-label{font-family:var(--font-mono);font-size:.66rem;color:var(--text-secondary)}
+
+.foot{margin-top:3.4rem;font-family:var(--font-mono);font-size:.7rem;line-height:1.9;color:var(--text-secondary)}
+.foot a{color:var(--teal)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
