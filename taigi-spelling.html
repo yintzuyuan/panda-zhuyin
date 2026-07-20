@@ -81,26 +81,26 @@
 
   <!-- Page -->
   <main class="wrap">
-    <h1 data-en="Typing Taigi with Zhuyin isn't what you'd guess">用注音打台語，<br>拼法跟你想的不一樣</h1>
-    <p class="lede">「東」在國語拼 <span class="bp bp-zh">ㄉㄨㄥ</span>，台語卻是 <span class="bp bp-tw">ㄉㆲ</span>。挑一個字，看它在鍵盤上一步步打出來——<b>每個字剛好示範一條台語拼寫規則</b>。</p>
+    <h1 data-en="Typing Taigi with Zhuyin isn't what you'd guess">用注音打台語，拼法跟你想的不一樣</h1>
+    <p class="lede"><span data-en="&ldquo;東&rdquo; is ">「東」在國語拼 </span><span class="bp bp-zh">ㄉㄨㄥ</span><span data-en=" in Mandarin, but ">，台語卻是 </span><span class="bp bp-tw">ㄉㆲ</span><span data-en=" in Taigi. Pick a word and watch it typed key by key — ">。挑一個字，看它在鍵盤上一步步打出來——</span><b data-en="each word demonstrates exactly one Taigi spelling rule">每個字剛好示範一條台語拼寫規則</b><span data-en=".">。</span></p>
 
     <section class="sec" id="secPlay" style="margin-top:2.6rem">
       <div class="sec-head">
         <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-        <span class="sec-label">跟著打</span>
+        <span class="sec-label" data-en="Follow along">跟著打</span>
         <span class="sec-rule"></span>
       </div>
-      <div class="picker" id="picker" role="tablist" aria-label="選字"></div>
+      <div class="picker" id="picker" role="tablist" aria-label="選字" data-aria-en="Choose a character to type"></div>
 
       <div class="contrast">
         <div class="cside zh">
-          <div class="clabel">國語注音</div>
+          <div class="clabel" data-en="Mandarin Zhuyin">國語注音</div>
           <div class="cval" id="zhVal"></div>
           <div class="cnote" id="zhNote"></div>
         </div>
         <div class="vs">vs</div>
         <div class="cside tw">
-          <div class="clabel">台語方音符號</div>
+          <div class="clabel" data-en="Taigi Phonetic Symbols">台語方音符號</div>
           <div class="cval" id="twVal"><span class="caret" id="caret"></span></div>
           <div class="croma" id="twRoma"></div>
         </div>
@@ -116,34 +116,34 @@
       </div>
 
       <div class="legend">
-        <span><i class="ldot" style="background:var(--rose)"></i>聲母</span>
-        <span><i class="ldot" style="background:var(--jade)"></i>介音</span>
-        <span><i class="ldot" style="background:var(--teal)"></i>韻母</span>
-        <span><i class="ldot" style="background:var(--amber)"></i>聲調</span>
-        <span><i class="ldot" style="background:var(--plum)"></i>入聲尾</span>
-        <span><i class="ldot" style="background:var(--indigo)"></i>鼻化</span>
+        <span><i class="ldot" style="background:var(--rose)"></i><span data-en="Onset">聲母</span></span>
+        <span><i class="ldot" style="background:var(--jade)"></i><span data-en="Medial">介音</span></span>
+        <span><i class="ldot" style="background:var(--teal)"></i><span data-en="Rime">韻母</span></span>
+        <span><i class="ldot" style="background:var(--amber)"></i><span data-en="Tone">聲調</span></span>
+        <span><i class="ldot" style="background:var(--plum)"></i><span data-en="Stop coda">入聲尾</span></span>
+        <span><i class="ldot" style="background:var(--indigo)"></i><span data-en="Nasal">鼻化</span></span>
       </div>
 
-      <div class="rule" id="rule"><span class="rtag">拼寫規則</span><span id="ruleText"></span></div>
-      <div class="replay"><button id="replayBtn">↻ 再播一次</button></div>
+      <div class="rule" id="rule"><span class="rtag" data-en="Spelling rule">拼寫規則</span><span id="ruleText"></span></div>
+      <div class="replay"><button id="replayBtn" data-en="↻ Replay">↻ 再播一次</button></div>
     </section>
 
     <section class="sec">
       <div class="sec-head">
         <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-        <span class="sec-label">聲調</span>
+        <span class="sec-label" data-en="Tones">聲調</span>
         <span class="sec-rule"></span>
       </div>
-      <div class="sec-title">台語有七個聲調</div>
-      <p class="sec-sub">縱軸是音高、線是走勢。點任一個調看怎麼打；有三個調和國語對得上（虛線）。</p>
+      <div class="sec-title" data-en="Taigi has seven tones">台語有七個聲調</div>
+      <p class="sec-sub" data-en="The vertical axis is pitch, the line is the contour. Tap any tone to see how to type it; three align with Mandarin (dashed).">縱軸是音高、線是走勢。點任一個調看怎麼打；有三個調和國語對得上（虛線）。</p>
       <div class="card">
-        <svg id="toneChart" viewBox="0 0 640 210" role="img" aria-label="台語七聲調五度圖"></svg>
+        <svg id="toneChart" viewBox="0 0 640 210" role="img" aria-label="台語七聲調五度圖" data-aria-en="Five-level chart of the seven Taigi tones"></svg>
         <div class="tone-detail" id="toneDetail"></div>
-        <div class="tone-neutral">另有<b>輕聲 ˙</b>：聲調鍵往左滑。例：起去 khí--khì＝ㄎㄧˋ ㄎㄧ˙。</div>
+        <div class="tone-neutral"><span data-en="There's also the ">另有</span><b data-en="neutral tone ˙">輕聲 ˙</b><span data-en=": flick the tone key left. E.g. 起去 khí--khì = ㄎㄧˋ ㄎㄧ˙.">：聲調鍵往左滑。例：起去 khí--khì＝ㄎㄧˋ ㄎㄧ˙。</span></div>
         <div class="tone-legend">
-          <span><i class="lg-solid"></i>台語調</span>
-          <span><i class="lg-dash"></i>國語對應調</span>
-          <span><i class="lg-short"></i>入聲＝短促</span>
+          <span><i class="lg-solid"></i><span data-en="Taigi tone">台語調</span></span>
+          <span><i class="lg-dash"></i><span data-en="Mandarin match">國語對應調</span></span>
+          <span><i class="lg-short"></i><span data-en="Entering = abrupt">入聲＝短促</span></span>
         </div>
       </div>
     </section>
@@ -151,43 +151,43 @@
     <section class="sec">
       <div class="sec-head">
         <span class="sec-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-        <span class="sec-label">想知道更多</span>
+        <span class="sec-label" data-en="Want to know more">想知道更多</span>
         <span class="sec-rule"></span>
       </div>
-      <div class="sec-title">還有這些細節</div>
-      <p class="sec-sub">對打字影響較小，好奇再點開。</p>
+      <div class="sec-title" data-en="A few more details">還有這些細節</div>
+      <p class="sec-sub" data-en="Minor for typing — expand if curious.">對打字影響較小，好奇再點開。</p>
 
       <div class="fold">
-        <button class="fold-head"><span class="fold-badge">寫法</span><span class="fold-q">這些符號手寫怎麼寫？</span><span class="fold-caret">＋</span></button>
+        <button class="fold-head"><span class="fold-badge" data-en="Writing">寫法</span><span class="fold-q" data-en="How are these symbols handwritten?">這些符號手寫怎麼寫？</span><span class="fold-caret">＋</span></button>
         <div class="fold-body"><div class="fold-inner">
           <div class="ph-row"><span class="ph-glyph">ㆠ</span><span class="ph-glyph">ㆩ</span><span class="ph-glyph">ㆦ</span></div>
-          濁音末筆畫圈、鼻化韻畫圈且交叉出頭、ㆦ 第二筆是缺一角的菱形；入聲尾寫在最後一個韻母的右側。
+          <span data-en="Voiced symbols loop the final stroke; nasal rimes loop with a crossing tail; ㆦ's second stroke is a diamond missing one corner; the stop coda goes to the right of the last rime.">濁音末筆畫圈、鼻化韻畫圈且交叉出頭、ㆦ 第二筆是缺一角的菱形；入聲尾寫在最後一個韻母的右側。</span>
         </div></div>
       </div>
 
       <div class="fold">
-        <button class="fold-head"><span class="fold-badge">版本</span><span class="fold-q">不同版本寫法不一樣？</span><span class="fold-caret">＋</span></button>
+        <button class="fold-head"><span class="fold-badge" data-en="Variants">版本</span><span class="fold-q" data-en="Do variants differ?">不同版本寫法不一樣？</span><span class="fold-caret">＋</span></button>
         <div class="fold-body"><div class="fold-inner">
           <div class="ph-row"><span class="ph-glyph">ㆲ</span><span class="ph-glyph">ㄛㄥ</span></div>
-          教育部通行式、楊青矗式、國小教材式各有差異（例：國小教材把 ong 寫成 ㄛㄥ、鼻化改用小圈゜）；地方腔另有偏漳的 ㄝ、偏泉的 ㆨ。
+          <span data-en="The MOE standard, Iûnn Tshing-tshok's, and the primary-school textbook forms each differ (e.g. textbooks write ong as ㄛㄥ and mark nasals with a small ring ゜); regional accents add Chiang-leaning ㄝ and Choân-leaning ㆨ.">教育部通行式、楊青矗式、國小教材式各有差異（例：國小教材把 ong 寫成 ㄛㄥ、鼻化改用小圈゜）；地方腔另有偏漳的 ㄝ、偏泉的 ㆨ。</span>
         </div></div>
       </div>
 
       <div class="fold">
-        <button class="fold-head"><span class="fold-badge">來歷</span><span class="fold-q">方音符號是誰做的？</span><span class="fold-caret">＋</span></button>
+        <button class="fold-head"><span class="fold-badge" data-en="Origin">來歷</span><span class="fold-q" data-en="Who created the phonetic symbols?">方音符號是誰做的？</span><span class="fold-caret">＋</span></button>
         <div class="fold-body"><div class="fold-inner">
           <div class="timeline">
-            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1946</div><div class="tl-label">朱兆祥設計</div></div>
-            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1998</div><div class="tl-label">教育部公告</div></div>
-            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2006</div><div class="tl-label">改推臺羅</div></div>
-            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-label">Unicode 13 收 ㆻ</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1946</div><div class="tl-label" data-en="Designed by Tsu Tiau-siông">朱兆祥設計</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">1998</div><div class="tl-label" data-en="MOE published">教育部公告</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2006</div><div class="tl-label" data-en="Shift to Tâi-lô">改推臺羅</div></div>
+            <div class="tl-node"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-label" data-en="Unicode 13 adds ㆻ">Unicode 13 收 ㆻ</div></div>
           </div>
-          以注音符號為基礎、增補台語需要的音；通行腔共 49 個符號（26 沿用注音、23 新造）。
+          <span data-en="Built on Zhuyin, adding the sounds Taigi needs; the common accent has 49 symbols in all (26 reused from Zhuyin, 23 newly coined).">以注音符號為基礎、增補台語需要的音；通行腔共 49 個符號（26 沿用注音、23 新造）。</span>
         </div></div>
       </div>
     </section>
 
-    <p class="foot">內容參考維基百科〈<a href="https://zh.wikipedia.org/wiki/臺灣方音符號">臺灣方音符號</a>〉（CC BY-SA 4.0）。想實際打打看？先看<a href="manual/#c6">說明書：台語模式</a>，或<a href="https://apps.apple.com/tw/app/id6761426494">下載胖打注音</a>。</p>
+    <p class="foot"><span data-en="Content adapted from Wikipedia's ">內容參考維基百科〈</span><a href="https://zh.wikipedia.org/wiki/臺灣方音符號" data-en="Taiwanese Phonetic Symbols">臺灣方音符號</a><span data-en=" (CC BY-SA 4.0). Want to try it yourself? See the ">〉（CC BY-SA 4.0）。想實際打打看？先看</span><a href="manual/#c6" data-en="Manual: Taigi Mode">說明書：台語模式</a><span data-en=", or ">，或</span><a href="https://apps.apple.com/tw/app/id6761426494" data-en="download Panda Zhuyin">下載胖打注音</a><span data-en=".">。</span></p>
   </main>
 
   <!-- Footer -->

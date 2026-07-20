@@ -7,6 +7,24 @@
   const { KB, EXAMPLES } = window.TAIGI_SPELLING;
   const $ = id => document.getElementById(id);
 
+  /* ═══ i18n（#1058）═══ */
+  const root = document.documentElement;
+  const lang = () => root.dataset.lang === 'en' ? 'en' : 'zh';
+  const L = v => (v && typeof v === 'object') ? (v[lang()] ?? v.zh) : v;
+  /* renderer 內固定 UI 片語（非資料層），依語言即時組字 */
+  const UI = {
+    toneLabel: n => lang() === 'en' ? `Tone ${n}` : `第 ${n} 調`,
+    value:     () => lang() === 'en' ? 'value ' : '調值 ',
+    howTo:     () => lang() === 'en' ? 'How to type: ' : '怎麼打：',
+    bridge:    zhName => lang() === 'en'
+      ? ` · <span class="td-bridge">≈ Mandarin ${zhName} tone (same symbol & direction)</span>`
+      : ` · <span class="td-bridge">≈ 國語${zhName}（同符號同方向）</span>`,
+    noBridge:  () => lang() === 'en'
+      ? ` · <span style="color:var(--text-secondary)">No matching Mandarin tone</span>`
+      : ` · <span style="color:var(--text-secondary)">國語沒有這個調</span>`,
+    badge:     zhName => lang() === 'en' ? `≈ Mand. ${zhName}` : `≈國語${zhName}`,
+  };
+
   /* ═══ 五邊形花瓣（照抄 anim-engine.js pentagonPath：5 點、相鄰邊 clamp、quad 圓角）═══ */
   const PENTA = {
     up:    (w,h)=>[[w/2,h],[w,3*h/4],[w,0],[0,0],[0,3*h/4]],
@@ -61,7 +79,8 @@
   EXAMPLES.forEach((ex,i)=>{
     const b=document.createElement("button");
     b.className="chip"+(i?"":" active"); b.setAttribute("role","tab");
-    b.innerHTML=ex.zh+`<span class="tag">${ex.tag}</span>`;
+    b.setAttribute("aria-selected", i ? "false" : "true");
+    b.innerHTML=ex.zh+`<span class="tag">${L(ex.tag)}</span>`;
     b.onclick=()=>select(i); picker.appendChild(b);
   });
 
@@ -144,6 +163,12 @@
   let cur=0, token=0;
   function select(i){ cur=i; document.querySelectorAll(".chip").forEach((c,j)=>{c.classList.toggle("active",j===i);c.setAttribute("aria-selected",j===i);}); play(); }
 
+  function updateChipTags(){
+    document.querySelectorAll(".chip").forEach((c,i)=>{
+      const t=c.querySelector(".tag"); if(t) t.textContent=L(EXAMPLES[i].tag);
+    });
+  }
+
   function renderZh(ex){
     const el=$("zhVal"); el.innerHTML="";
     ex.zhVal.forEach(([ch,t])=>{
@@ -151,7 +176,7 @@
       if(t==="t") sp.className="bch tone-mark";
       sp.textContent=ch; el.appendChild(sp);
     });
-    $("zhNote").textContent=ex.zhNote;
+    $("zhNote").textContent=L(ex.zhNote);
   }
 
   async function play(){
@@ -161,18 +186,18 @@
     clearHints(); hideBubble();
     finger.style.opacity=0; finger.classList.remove("press");
     bufItems=[]; renderBuf(); caret.style.display="inline-block";
-    renderZh(ex); $("twRoma").textContent=ex.twRoma;
+    renderZh(ex); $("twRoma").textContent=L(ex.twRoma);
     $("rule").classList.remove("show"); $("stepLabel").textContent="";
     await sleep(430); if(my!==token) return;
 
     for(const st of ex.steps){
       if(my!==token) return;
-      $("stepLabel").innerHTML=st.label;
+      $("stepLabel").innerHTML=L(st.label);
 
       if(st.commit){
         finger.style.opacity=0; hideBubble();
         bufCommit(st.commit);
-        $("ruleText").innerHTML=st.rule; $("rule").classList.add("show");
+        $("ruleText").innerHTML=L(st.rule); $("rule").classList.add("show");
         continue;
       }
 
@@ -258,22 +283,35 @@
       s+=`<g class="tone-col" data-i="${i}"><rect class="col-bg" x="${cx-colW/2}" y="${TC.padT}" width="${colW}" height="${TC.gh}" rx="6"/>`;
       if(t.zh) s+=`<path class="zh-curve" d="${curveD(t.zh.curve,false,cx,-3.5)}"/>`;
       s+=`<path class="tw-curve" d="${curveD(t.curve,t.short,cx,0)}"/>`;
-      s+=`<text class="t-hanzi" x="${cx}" y="${by+22}">${t.hanzi}</text><text class="t-name" x="${cx}" y="${by+36}">${t.name}</text>`;
-      if(t.zh) s+=`<text class="t-badge" x="${cx}" y="${by+49}">≈國語${t.zh.name}</text>`;
+      s+=`<text class="t-hanzi" x="${cx}" y="${by+22}">${t.hanzi}</text><text class="t-name" x="${cx}" y="${by+36}">${t.n}</text>`;
+      if(t.zh) s+=`<text class="t-badge" x="${cx}" y="${by+49}">${UI.badge(L(t.zh.name))}</text>`;
       s+=`<rect class="hitbox" x="${cx-colW/2}" y="0" width="${colW}" height="${TC.H}"/></g>`;
     });
     chart.innerHTML=s;
     chart.querySelectorAll(".tone-col").forEach(g=>{g.querySelector(".hitbox").onclick=()=>selTone(+g.dataset.i);});
   }
+  let curTone = 1;
   function selTone(i){
+    curTone = i;
     chart.querySelectorAll(".tone-col").forEach((g,j)=>g.classList.toggle("active",j===i));
     const t=TONES[i];
-    const bridge=t.zh?` · <span class="td-bridge">≈ 國語${t.zh.name}（同符號同方向）</span>`:` · <span style="color:var(--text-secondary)">國語沒有這個調</span>`;
-    $("toneDetail").innerHTML=`<span class="td-glyph">${t.glyph}</span><b>第 ${t.n} 調 ${t.name}</b>　調值 ${t.val}${bridge}<span class="td-gest">怎麼打：${t.gest}</span>`;
+    const bridge=t.zh?UI.bridge(L(t.zh.name)):UI.noBridge();
+    $("toneDetail").innerHTML=`<span class="td-glyph">${t.glyph}</span><b>${UI.toneLabel(t.n)} ${L(t.name)}</b>　${UI.value()}${L(t.val)}${bridge}<span class="td-gest">${UI.howTo()}${L(t.gest)}</span>`;
   }
 
   /* ═══ 摺疊 ═══ */
   document.querySelectorAll(".fold-head").forEach(h=>h.onclick=()=>h.parentElement.toggleAttribute("data-open"));
 
   buildToneChart(); selTone(1);
+
+  /* ═══ 語言切換重繪（#1058）：重建圖表 + 重繪 detail + chip tags + 重播當前字 ═══ */
+  let renderedLang = lang();
+  new MutationObserver(() => {
+    if (lang() === renderedLang) return;   // 只在語言真的改變時動作
+    renderedLang = lang();
+    buildToneChart();
+    selTone(curTone);
+    updateChipTags();
+    play();                                 // 重播當前字；token 機制取消舊播放
+  }).observe(root, { attributes: true, attributeFilter: ['data-lang'] });
 })();
