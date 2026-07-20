@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>方音符號拼寫規則 — 胖打注音 Panda Zhuyin</title>
-  <meta name="description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+  <meta name="description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對華語注音的拼寫規則差異。">
 
   <link rel="canonical" href="https://erikyin.net/panda-zhuyin/taigi-spelling.html">
 
   <meta property="og:title" content="方音符號拼寫規則 — 胖打注音 Panda Zhuyin">
-  <meta property="og:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+  <meta property="og:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對華語注音的拼寫規則差異。">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="方音符號拼寫規則 — 胖打注音 Panda Zhuyin">
-  <meta name="twitter:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對國語注音的拼寫規則差異。">
+  <meta name="twitter:description" content="用注音打台語：一個合法音節＝一段鍵盤輸入動畫，看漢字被打出來，吸收方音符號相對華語注音的拼寫規則差異。">
   <meta name="twitter:image" content="https://erikyin.net/panda-zhuyin/assets/og-image.png">
 
   <!-- Favicon -->
@@ -82,7 +82,7 @@
   <!-- Page -->
   <main class="wrap">
     <h1 data-en="Typing Taigi with Zhuyin isn't what you'd guess">用注音打台語，拼法跟你想的不一樣</h1>
-    <p class="lede"><span data-en="&ldquo;東&rdquo; is ">「東」在國語拼 </span><span class="bp bp-zh">ㄉㄨㄥ</span><span data-en=" in Mandarin, but ">，台語卻是 </span><span class="bp bp-tw">ㄉㆲ</span><span data-en=" in Taigi. Pick a word and watch it typed key by key — ">。挑一個字，看它在鍵盤上一步步打出來——</span><b data-en="each word demonstrates exactly one Taigi spelling rule">每個字剛好示範一條台語拼寫規則</b><span data-en=".">。</span></p>
+    <p class="lede"><span data-en="&ldquo;東&rdquo; is ">「東」在華語拼 </span><span class="bp bp-zh">ㄉㄨㄥ</span><span data-en=" in Mandarin, but ">，台語卻是 </span><span class="bp bp-tw">ㄉㆲ</span><span data-en=" in Taigi. Pick a word and watch it typed key by key — ">。挑一個字，看它在鍵盤上一步步打出來——</span><b data-en="each word demonstrates exactly one Taigi spelling rule">每個字剛好示範一條台語拼寫規則</b><span data-en=".">。</span></p>
 
     <section class="sec" id="secPlay" style="margin-top:2.6rem">
       <div class="sec-head">
@@ -94,13 +94,13 @@
 
       <div class="contrast">
         <div class="cside zh">
-          <div class="clabel" data-en="Mandarin Zhuyin">國語注音</div>
+          <div class="clabel" data-en="Phonetic Symbols">方音符號</div>
           <div class="cval" id="zhVal"></div>
           <div class="cnote" id="zhNote"></div>
         </div>
-        <div class="vs">vs</div>
+        <div class="vs">→</div>
         <div class="cside tw">
-          <div class="clabel" data-en="Taigi Phonetic Symbols">台語方音符號</div>
+          <div class="clabel" data-en="How to type">怎麼打</div>
           <div class="cval" id="twVal"><span class="caret" id="caret"></span></div>
           <div class="croma" id="twRoma"></div>
         </div>
@@ -135,14 +135,14 @@
         <span class="sec-rule"></span>
       </div>
       <div class="sec-title" data-en="Taigi has seven tones">台語有七個聲調</div>
-      <p class="sec-sub" data-en="The vertical axis is pitch, the line is the contour. Tap any tone to see how to type it; three align with Mandarin (dashed).">縱軸是音高、線是走勢。點任一個調看怎麼打；有三個調和國語對得上（虛線）。</p>
+      <p class="sec-sub" data-en="The vertical axis is pitch, the line is the contour. Tap any tone to see how to type it; three align with Mandarin (dashed).">縱軸是音高、線是走勢。點任一個調看怎麼打；有三個調和華語對得上（虛線）。</p>
       <div class="card">
         <svg id="toneChart" viewBox="0 0 640 210" role="img" aria-label="台語七聲調五度圖" data-aria-en="Five-level chart of the seven Taigi tones"></svg>
         <div class="tone-detail" id="toneDetail"></div>
         <div class="tone-neutral"><span data-en="There's also the ">另有</span><b data-en="neutral tone ˙">輕聲 ˙</b><span data-en=": flick the tone key left. E.g. 起去 khí--khì = ㄎㄧˋ ㄎㄧ˙.">：聲調鍵往左滑。例：起去 khí--khì＝ㄎㄧˋ ㄎㄧ˙。</span></div>
         <div class="tone-legend">
           <span><i class="lg-solid"></i><span data-en="Taigi tone">台語調</span></span>
-          <span><i class="lg-dash"></i><span data-en="Mandarin match">國語對應調</span></span>
+          <span><i class="lg-dash"></i><span data-en="Mandarin match">華語對應調</span></span>
           <span><i class="lg-short"></i><span data-en="Entering = abrupt">入聲＝短促</span></span>
         </div>
       </div>

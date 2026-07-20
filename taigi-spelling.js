@@ -18,11 +18,11 @@
     howTo:     () => lang() === 'en' ? 'How to type: ' : '怎麼打：',
     bridge:    zhName => lang() === 'en'
       ? ` · <span class="td-bridge">≈ Mandarin ${zhName} tone (same symbol & direction)</span>`
-      : ` · <span class="td-bridge">≈ 國語${zhName}（同符號同方向）</span>`,
+      : ` · <span class="td-bridge">≈ 華語${zhName}（同符號同方向）</span>`,
     noBridge:  () => lang() === 'en'
       ? ` · <span style="color:var(--text-secondary)">No matching Mandarin tone</span>`
-      : ` · <span style="color:var(--text-secondary)">國語沒有這個調</span>`,
-    badge:     zhName => lang() === 'en' ? `≈ Mand. ${zhName}` : `≈國語${zhName}`,
+      : ` · <span style="color:var(--text-secondary)">華語沒有這個調</span>`,
+    badge:     zhName => lang() === 'en' ? `≈ Mand. ${zhName}` : `≈華語${zhName}`,
   };
 
   /* ═══ 五邊形花瓣（照抄 anim-engine.js pentagonPath：5 點、相鄰邊 clamp、quad 圓角）═══ */
@@ -169,14 +169,15 @@
     });
   }
 
+  /* 左欄＝方音符號目標拼寫：取最後一個帶 buffer 的步驟＝完整方音符號（含調號）。
+     右欄逐鍵打字動畫另外渲染。#zhVal/#zhNote/.cside.zh 為既有識別符，語意沿用不改。 */
   function renderZh(ex){
     const el=$("zhVal"); el.innerHTML="";
-    ex.zhVal.forEach(([ch,t])=>{
-      const sp=document.createElement("span");
-      if(t==="t") sp.className="bch tone-mark";
-      sp.textContent=ch; el.appendChild(sp);
-    });
-    $("zhNote").textContent=L(ex.zhNote);
+    let spell="";
+    for(let i=ex.steps.length-1;i>=0;i--){ if(ex.steps[i].buf){ spell=ex.steps[i].buf; break; } }
+    const sp=document.createElement("span");
+    sp.textContent=spell; el.appendChild(sp);
+    $("zhNote").textContent="";
   }
 
   async function play(){
